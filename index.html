@@ -10,140 +10,140 @@
             body { background: white !important; color: black !important; }
             .no-print { display: none !important; }
             .print-card { border: 1px solid #ccc !important; background: white !important; color: black !important; break-inside: avoid; font-size: 11px !important; }
-            .print-compact { max-height: 45vh !important; overflow: visible !important; border: 1px dashed #999 !important; padding: 10px !important; margin-bottom: 15px !important; }
+            .print-compact { max-height: 45vh !important; overflow: visible !important; border: 1px dashed #999 !important; padding: 10px !important; margin-bottom: 15px !important; background: white !important; color: black !important; }
         }
     </style>
 </head>
-<body id="cuerpoPrincipal" class="bg-slate-950 text-white min-h-screen flex flex-col justify-between transition-colors duration-500">
+<body id="cuerpoPrincipal" class="bg-white text-slate-900 min-h-screen flex flex-col justify-between transition-colors duration-500">
     
-    <header class="bg-slate-900 border-b border-slate-800 py-4 px-6 shadow-xl no-print">
+    <header id="headerPrincipal" class="bg-white border-b border-slate-200 py-4 px-6 shadow-md no-print">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="relative cursor-pointer group" onclick="document.getElementById('inputSubirLogo').click()" title="Cambiar logo LG BeisVisual">
-                    <img id="logoEmpresa" src="https://via.placeholder.com/45" alt="Logo" class="w-11 h-11 rounded-full object-cover border-2 border-blue-500 bg-slate-800">
+                    <img id="logoEmpresa" src="https://via.placeholder.com/45" alt="Logo" class="w-11 h-11 rounded-full object-cover border-2 border-blue-600 bg-slate-100">
                     <div class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[9px] text-white font-bold">Subir</div>
                 </div>
                 <input type="file" id="inputSubirLogo" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event, 'lg_beisvisual_logo', 'logoEmpresa')">
                 <div>
-                    <h1 class="text-xl font-black tracking-wider text-white">LG BEISVISUAL</h1>
-                    <p id="subtituloLiga" class="text-blue-400 font-semibold text-xs">Central de Escautear Equipos y Jugadores</p>
+                    <h1 id="tituloAppHeader" class="text-xl font-black tracking-wider text-slate-900">LG BEISVISUAL</h1>
+                    <p id="subtituloLiga" class="text-blue-600 font-semibold text-xs">Central de Escautear Equipos y Jugadores</p>
                 </div>
             </div>
-            <button onclick="irAPortada()" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition border border-slate-700">🏠 Volver a Ligas</button>
+            <button onclick="irAPortada()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold transition border border-slate-300">🏠 Volver a Ligas</button>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         
         <section id="vistaPortada" class="py-6 text-center">
-            <div class="mb-10 bg-gradient-to-r from-slate-900 via-blue-950/40 to-slate-900 border border-blue-500/30 p-8 rounded-3xl shadow-2xl max-w-3xl mx-auto backdrop-blur-md">
-                <div class="inline-block bg-blue-600/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-blue-500/30">⚡ SOFTWARE TÁCTICO OFICIAL</div>
-                <h2 class="text-4xl font-black tracking-wide text-white mb-2">SISTEMA DE ESCAUTEO PROFESIONAL</h2>
-                <p class="text-sm text-slate-300 font-medium">Plataforma avanzada para el análisis y estudio de rivales</p>
-                <p class="text-xs text-blue-400/80 mt-2 font-bold">Creado y Diseñado por LG BeisVisual</p>
+            <div class="mb-10 bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100 border-2 border-blue-600/30 p-8 rounded-3xl shadow-2xl max-w-3xl mx-auto backdrop-blur-md">
+                <div class="inline-block bg-blue-600 text-white text-xs font-black px-4 py-1.5 rounded-full mb-3 shadow-md tracking-wider">⚡ SOFTWARE TÁCTICO OFICIAL</div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-wide text-slate-900 mb-3">SISTEMA DE ESCAUTEO PROFESIONAL</h2>
+                <p class="text-sm text-slate-700 font-semibold">Plataforma avanzada para el análisis, estrategia y estudio de rivales</p>
+                <p class="text-xs text-blue-600 mt-3 font-extrabold tracking-widest uppercase">Creado y Diseñado por LG BeisVisual</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-slate-900/90 border-2 border-orange-500/60 hover:border-orange-500 p-8 rounded-3xl shadow-2xl text-center group flex flex-col justify-between backdrop-blur-sm transition transform hover:-translate-y-1">
+                <div class="bg-white border-2 border-orange-500 hover:border-orange-600 p-8 rounded-3xl shadow-xl text-center group flex flex-col justify-between transition transform hover:-translate-y-1">
                     <div>
                         <div class="relative w-20 h-20 mx-auto mb-4 cursor-pointer group/logo" onclick="document.getElementById('inputLogoAPC').click()" title="Cambiar Logo Liga APC">
-                            <img id="logoAPC" src="https://via.placeholder.com/80" alt="Logo APC" class="w-20 h-20 rounded-2xl object-cover border-2 border-orange-500 bg-black shadow-lg">
+                            <img id="logoAPC" src="https://via.placeholder.com/80" alt="Logo APC" class="w-20 h-20 rounded-2xl object-cover border-2 border-orange-500 bg-slate-900 shadow-md">
                             <div class="absolute inset-0 bg-black/70 rounded-2xl flex items-center justify-center opacity-0 group-hover/logo:opacity-100 transition text-[10px] text-white font-bold">Cambiar Logo</div>
                         </div>
                         <input type="file" id="inputLogoAPC" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event, 'logo_liga_apc', 'logoAPC')">
-                        <h3 class="text-2xl font-black text-white group-hover:text-orange-400 mb-2">LIGA APC</h3>
-                        <p class="text-xs text-slate-400 mb-6">Módulo de scouting, bateo y pitcheo formal.</p>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">LIGA APC</h3>
+                        <p class="text-xs text-slate-600 mb-6 font-medium">Módulo de scouting, bateo y pitcheo formal.</p>
                     </div>
-                    <button onclick="entrarLiga('APC')" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-black text-xs py-3.5 rounded-xl transition shadow-lg tracking-wider">INGRESAR A LIGA APC</button>
+                    <button onclick="entrarLiga('APC')" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-black text-xs py-3.5 rounded-xl transition shadow-lg tracking-wider">INGRESAR A LIGA APC</button>
                 </div>
 
-                <div class="bg-slate-900/90 border-2 border-yellow-500/60 hover:border-yellow-400 p-8 rounded-3xl shadow-2xl text-center group flex flex-col justify-between backdrop-blur-sm transition transform hover:-translate-y-1">
+                <div class="bg-white border-2 border-emerald-600 hover:border-emerald-700 p-8 rounded-3xl shadow-xl text-center group flex flex-col justify-between transition transform hover:-translate-y-1">
                     <div>
                         <div class="relative w-20 h-20 mx-auto mb-4 cursor-pointer group/logo" onclick="document.getElementById('inputLogoAgri').click()" title="Cambiar Logo Agricultores">
-                            <img id="logoAgri" src="https://via.placeholder.com/80" alt="Logo Agricultores" class="w-20 h-20 rounded-2xl object-cover border-2 border-yellow-500 bg-black shadow-lg">
+                            <img id="logoAgri" src="https://via.placeholder.com/80" alt="Logo Agricultores" class="w-20 h-20 rounded-2xl object-cover border-2 border-emerald-600 bg-slate-900 shadow-md">
                             <div class="absolute inset-0 bg-black/70 rounded-2xl flex items-center justify-center opacity-0 group-hover/logo:opacity-100 transition text-[10px] text-white font-bold">Cambiar Logo</div>
                         </div>
                         <input type="file" id="inputLogoAgri" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event, 'logo_liga_agri', 'logoAgri')">
-                        <h3 class="text-2xl font-black text-yellow-400 group-hover:text-yellow-300 mb-2">AGRICULTORES DE CALDERÓN</h3>
-                        <p class="text-xs text-slate-300 mb-6">Análisis especializado por zonas y reportes de campo.</p>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">AGRICULTORES DE CALDERÓN</h3>
+                        <p class="text-xs text-slate-600 mb-6 font-medium">Análisis especializado por zonas y reportes de campo.</p>
                     </div>
-                    <button onclick="entrarLiga('AGRICULTORES')" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs py-3.5 rounded-xl transition shadow-lg tracking-wider">INGRESAR A AGRICULTORES</button>
+                    <button onclick="entrarLiga('AGRICULTORES')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs py-3.5 rounded-xl transition shadow-lg tracking-wider">INGRESAR A AGRICULTORES</button>
                 </div>
             </div>
         </section>
 
-        <section id="seccionEquipos" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl mb-8 hidden no-print">
-            <h2 id="tituloSeccionEquipos" class="text-xl font-bold mb-4 border-l-4 pl-3">Equipos Rival</h2>
+        <section id="seccionEquipos" class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl mb-8 hidden no-print">
+            <h2 id="tituloSeccionEquipos" class="text-xl font-black mb-4 border-l-4 pl-3 text-slate-900">Equipos Rival</h2>
             <div id="cuadriculaEquipos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
             
-            <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-slate-800">
+            <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-slate-200">
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Nombre del Equipo Rival</label>
-                    <input type="text" id="equipoNombre" class="w-full bg-black border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none" placeholder="Ej. Astros">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nombre del Equipo Rival</label>
+                    <input type="text" id="equipoNombre" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 text-sm focus:outline-none" placeholder="Ej. Astros">
                 </div>
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Nombre del Jugador</label>
-                    <input type="text" id="jugadorNombre" class="w-full bg-black border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none" placeholder="Ej. Carlos Correa" required>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nombre del Jugador</label>
+                    <input type="text" id="jugadorNombre" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 text-sm focus:outline-none" placeholder="Ej. Carlos Correa" required>
                 </div>
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Rol en el Terreno</label>
-                    <select id="jugadorRol" class="w-full bg-black border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Rol en el Terreno</label>
+                    <select id="jugadorRol" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 text-sm focus:outline-none">
                         <option value="Bateador">Bateador / Jugador</option>
                         <option value="Pitcher">Pitcher / Lanzador</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Perfil</label>
-                    <select id="jugadorPerfil" class="w-full bg-black border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Perfil</label>
+                    <select id="jugadorPerfil" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 text-sm focus:outline-none">
                         <option value="Derecho (D)">Derecho (D)</option>
                         <option value="Zurdo (Z)">Zurdo (Z)</option>
                         <option value="Ambidiestro (A)">Ambidiestro (A)</option>
                     </select>
                 </div>
                 <div class="md:col-span-4">
-                    <button type="submit" id="btnGuardarJugador" class="w-full font-black py-3 px-4 rounded-xl text-sm transition text-black tracking-wide shadow-md">Guardar Jugador en el Equipo</button>
+                    <button type="submit" id="btnGuardarJugador" class="w-full font-black py-3 px-4 rounded-xl text-sm transition text-white tracking-wide shadow-md">Guardar Jugador en el Equipo</button>
                 </div>
             </form>
         </section>
 
-        <section id="seccionRoster" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl mb-8 hidden">
+        <section id="seccionRoster" class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl mb-8 hidden">
             <div class="flex flex-col md:flex-row justify-between items-center mb-6 no-print gap-4">
-                <h2 id="tituloRosterEquipo" class="text-xl font-bold border-l-4 pl-3">Plantilla</h2>
+                <h2 id="tituloRosterEquipo" class="text-xl font-black border-l-4 pl-3 text-slate-900">Plantilla</h2>
                 <div class="flex flex-wrap gap-2">
-                    <button id="btnReporteMaster" onclick="verReporteGeneral()" class="font-black px-3.5 py-2 rounded-xl text-xs text-black shadow-md">📊 4 Reportes del Equipo</button>
-                    <button onclick="cerrarRoster()" class="bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold">Volver</button>
+                    <button id="btnReporteMaster" onclick="verReporteGeneral()" class="font-black px-4 py-2.5 rounded-xl text-xs text-white shadow-md transition">📊 4 Reportes del Equipo</button>
+                    <button onclick="cerrarRoster()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-xl text-xs font-bold transition">Volver</button>
                 </div>
             </div>
             <div id="cuadriculaJugadoresEquipo" class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print"></div>
         </section>
 
-        <section id="seccionFichaIndividual" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl hidden">
+        <section id="seccionFichaIndividual" class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl hidden">
             <div class="flex justify-between items-center mb-4 no-print">
-                <h2 id="tituloFichaJugador" class="text-xl font-bold border-l-4 pl-3">Ficha Táctica</h2>
+                <h2 id="tituloFichaJugador" class="text-xl font-black border-l-4 pl-3 text-slate-900">Ficha Táctica</h2>
                 <div class="space-x-2">
-                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1.5 rounded-lg text-xs">🖨️ Imprimir Ficha</button>
-                    <button onclick="cerrarFicha()" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg text-xs">Cerrar</button>
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">🖨️ Imprimir Ficha</button>
+                    <button onclick="cerrarFicha()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold">Cerrar</button>
                 </div>
             </div>
 
-            <div id="contenedorBotoneraTurno" class="no-print bg-black p-4 rounded-xl border border-slate-800 mb-6"></div>
+            <div id="contenedorBotoneraTurno" class="no-print bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6"></div>
             <div id="reporteJugadorDetalle" class="space-y-4"></div>
         </section>
 
-        <section id="seccionReporteGeneral" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl hidden">
+        <section id="seccionReporteGeneral" class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl hidden">
             <div class="flex justify-between items-center mb-6 no-print">
-                <h2 id="tituloReporteGeneral" class="text-xl font-bold border-l-4 pl-3">Reportes del Equipo</h2>
+                <h2 id="tituloReporteGeneral" class="text-xl font-black border-l-4 pl-3 text-slate-900">Reportes del Equipo</h2>
                 <div class="space-x-2">
-                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1.5 rounded-lg text-xs">🖨️ Imprimir Todo</button>
-                    <button onclick="cerrarReporteGeneral()" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg text-xs">Regresar</button>
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs">🖨️ Imprimir Todo</button>
+                    <button onclick="cerrarReporteGeneral()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-3.5 py-2 rounded-xl text-xs font-bold">Regresar</button>
                 </div>
             </div>
             
-            <div class="flex gap-2 mb-6 no-print border-b border-slate-800 pb-4 overflow-x-auto">
+            <div class="flex gap-2 mb-6 no-print border-b border-slate-200 pb-4 overflow-x-auto">
                 <button onclick="cambiarPestanaReporte('batNormal')" id="tabBatNormal" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md">1. Bateador (Normal)</button>
-                <button onclick="cambiarPestanaReporte('batPersonal')" id="tabBatPersonal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300">2. Bateador (Personal Breve)</button>
-                <button onclick="cambiarPestanaReporte('pitcherNormal')" id="tabPitcherNormal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300">3. Pitcher (Normal)</button>
-                <button onclick="cambiarPestanaReporte('pitcherPersonal')" id="tabPitcherPersonal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300">4. Pitcher (Personal Breve)</button>
+                <button onclick="cambiarPestanaReporte('batPersonal')" id="tabBatPersonal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">2. Bateador (Personal Breve)</button>
+                <button onclick="cambiarPestanaReporte('pitcherNormal')" id="tabPitcherNormal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">3. Pitcher (Normal)</button>
+                <button onclick="cambiarPestanaReporte('pitcherPersonal')" id="tabPitcherPersonal" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">4. Pitcher (Personal Breve)</button>
             </div>
 
             <div id="contenedorReporteGeneral" class="space-y-6"></div>
@@ -151,7 +151,7 @@
 
     </main>
 
-    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500 no-print">
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 no-print">
         &copy; 2026 LG BeisVisual &bull; Sistema Profesional de Scouting
     </footer>
 
@@ -196,26 +196,20 @@
             document.getElementById('vistaPortada').classList.add('hidden');
             document.getElementById('seccionEquipos').classList.remove('hidden');
 
-            const cuerpo = document.getElementById('cuerpoPrincipal');
-            const titulo = document.getElementById('tituloSeccionEquipos');
-            const subtitulo = document.getElementById('subtituloLiga');
             const btnGuardar = document.getElementById('btnGuardarJugador');
             const btnReporteMaster = document.getElementById('btnReporteMaster');
+            const subtitulo = document.getElementById('subtituloLiga');
 
             if (liga === 'AGRICULTORES') {
-                cuerpo.className = "bg-zinc-950 text-white min-h-screen flex flex-col justify-between transition-colors duration-500";
-                titulo.className = "text-xl font-bold mb-4 border-l-4 border-yellow-500 pl-3 text-yellow-400";
-                subtitulo.innerText = "Liga: Agricultores de Calderón";
-                subtitulo.className = "text-yellow-400 font-semibold text-xs";
-                btnGuardar.className = "w-full bg-yellow-500 hover:bg-yellow-400 text-black font-black py-3 px-4 rounded-xl text-sm transition shadow-md";
-                btnReporteMaster.className = "bg-yellow-500 hover:bg-yellow-400 text-black font-black px-3.5 py-2 rounded-xl text-xs shadow-md";
+                subtitulo.innerText = "Liga: Agricultores de Calderón (Verde & Amarillo)";
+                subtitulo.className = "text-emerald-700 font-bold text-xs";
+                btnGuardar.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 px-4 rounded-xl text-sm transition shadow-md";
+                btnReporteMaster.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md";
             } else {
-                cuerpo.className = "bg-slate-950 text-white min-h-screen flex flex-col justify-between transition-colors duration-500";
-                titulo.className = "text-xl font-bold mb-4 border-l-4 border-orange-500 pl-3 text-orange-400";
-                subtitulo.innerText = "Liga: Liga APC";
-                subtitulo.className = "text-orange-500 font-semibold text-xs";
-                btnGuardar.className = "w-full bg-orange-600 hover:bg-orange-500 text-black font-black py-3 px-4 rounded-xl text-sm transition shadow-md";
-                btnReporteMaster.className = "bg-orange-600 hover:bg-orange-500 text-black font-black px-3.5 py-2 rounded-xl text-xs shadow-md";
+                subtitulo.innerText = "Liga: Liga APC (Naranja, Negro & Blanco)";
+                subtitulo.className = "text-orange-600 font-bold text-xs";
+                btnGuardar.className = "w-full bg-orange-600 hover:bg-orange-500 text-white font-black py-3 px-4 rounded-xl text-sm transition shadow-md";
+                btnReporteMaster.className = "bg-orange-600 hover:bg-orange-500 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md";
             }
             renderizarEquipos();
         }
@@ -228,8 +222,7 @@
             document.getElementById('seccionFichaIndividual').classList.add('hidden');
             document.getElementById('seccionReporteGeneral').classList.add('hidden');
             document.getElementById('subtituloLiga').innerText = "Central de Escautear Equipos y Jugadores";
-            document.getElementById('subtituloLiga').className = "text-blue-400 font-semibold text-xs";
-            document.getElementById('cuerpoPrincipal').className = "bg-slate-950 text-white min-h-screen flex flex-col justify-between transition-colors duration-500";
+            document.getElementById('subtituloLiga').className = "text-blue-600 font-semibold text-xs";
         }
 
         const registroForm = document.getElementById('registroForm');
@@ -282,18 +275,17 @@
             const equiposUnicos = [...new Set(equiposLiga.map(j => j.equipo))];
 
             if (equiposUnicos.length === 0) {
-                contenedor.innerHTML = '<div class="col-span-full text-slate-500 text-sm text-center py-4">No hay equipos registrados en esta liga. Escribe uno arriba para empezar.</div>';
+                contenedor.innerHTML = '<div class="col-span-full text-slate-500 text-sm text-center py-4 font-medium">No hay equipos registrados en esta liga. Escribe uno arriba para empezar.</div>';
                 return;
             }
 
             equiposUnicos.forEach(eq => {
                 const total = equiposLiga.filter(j => j.equipo === eq).length;
-                let colorBorde = ligaActual === 'AGRICULTORES' ? 'hover:border-yellow-400' : 'hover:border-orange-500';
-                let colorBg = ligaActual === 'AGRICULTORES' ? 'bg-zinc-900 border-zinc-800' : 'bg-slate-900 border-slate-800';
+                let colorBorde = ligaActual === 'AGRICULTORES' ? 'hover:border-emerald-600' : 'hover:border-orange-500';
                 contenedor.innerHTML += `
-                    <div onclick="abrirRoster('${eq}')" class="${colorBg} border ${colorBorde} p-5 rounded-2xl cursor-pointer transition shadow-lg text-center group">
-                        <h3 class="font-black text-white text-lg group-hover:text-slate-200">${eq}</h3>
-                        <p class="text-xs text-slate-400 mt-1">${total} jugadores</p>
+                    <div onclick="abrirRoster('${eq}')" class="bg-white border-2 border-slate-200 ${colorBorde} p-5 rounded-2xl cursor-pointer transition shadow-md text-center group">
+                        <h3 class="font-black text-slate-900 text-lg group-hover:text-blue-600">${eq}</h3>
+                        <p class="text-xs text-slate-500 mt-1 font-semibold">${total} jugadores</p>
                     </div>
                 `;
             });
@@ -307,25 +299,22 @@
             document.getElementById('seccionReporteGeneral').classList.add('hidden');
 
             document.getElementById('tituloRosterEquipo').innerText = `Roster: ${nombreEquipo}`;
-            const tituloRoster = document.getElementById('tituloRosterEquipo');
-            tituloRoster.className = ligaActual === 'AGRICULTORES' ? "text-xl font-bold border-l-4 border-yellow-500 pl-3 text-yellow-400" : "text-xl font-bold border-l-4 border-orange-500 pl-3 text-orange-400";
 
             const contenedor = document.getElementById('cuadriculaJugadoresEquipo');
             contenedor.innerHTML = '';
             const rosterEquipo = jugadores.filter(j => j.liga === ligaActual && j.equipo === nombreEquipo);
 
             rosterEquipo.forEach(j => {
-                let badge = j.rol === 'Pitcher' ? '<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-0.5 rounded-full font-bold">Pitcher</span>' : '<span class="bg-orange-500/20 text-orange-400 text-xs px-2.5 py-0.5 rounded-full font-bold">Bateador</span>';
+                let badge = j.rol === 'Pitcher' ? '<span class="bg-red-100 text-red-700 text-xs px-2.5 py-0.5 rounded-full font-black">Pitcher</span>' : '<span class="bg-blue-100 text-blue-700 text-xs px-2.5 py-0.5 rounded-full font-black">Bateador</span>';
                 const totalT = turnos.filter(t => t.jugadorId == j.id).length;
                 
-                let colorBgCard = ligaActual === 'AGRICULTORES' ? 'bg-zinc-950 border-zinc-800' : 'bg-black border-slate-800';
                 contenedor.innerHTML += `
-                    <div onclick="abrirFichaJugador(${j.id})" class="${colorBgCard} border hover:border-slate-600 p-4 rounded-2xl cursor-pointer transition shadow-md">
+                    <div onclick="abrirFichaJugador(${j.id})" class="bg-white border-2 border-slate-200 hover:border-slate-400 p-4 rounded-2xl cursor-pointer transition shadow-sm">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="font-bold text-white text-base">${j.nombre}</span>
+                            <span class="font-black text-slate-900 text-base">${j.nombre}</span>
                             ${badge}
                         </div>
-                        <p class="text-xs text-slate-400">Perfil: ${j.perfil} | Registros: ${totalT}</p>
+                        <p class="text-xs text-slate-600 font-medium">Perfil: ${j.perfil} | Registros: ${totalT}</p>
                     </div>
                 `;
             });
@@ -344,47 +333,44 @@
             document.getElementById('seccionReporteGeneral').classList.add('hidden');
 
             document.getElementById('tituloFichaJugador').innerText = `Ficha: ${jugador.nombre} [${jugador.rol}]`;
-            const tituloFicha = document.getElementById('tituloFichaJugador');
-            tituloFicha.className = ligaActual === 'AGRICULTORES' ? "text-xl font-bold border-l-4 border-yellow-500 pl-3 text-yellow-400" : "text-xl font-bold border-l-4 border-orange-500 pl-3 text-orange-400";
-
             const botonera = document.getElementById('contenedorBotoneraTurno');
             
             if (jugador.rol === 'Pitcher') {
                 botonera.innerHTML = `
-                    <p class="text-xs text-slate-400 mb-2 font-bold">⚡ REGISTRO RÁPIDO PARA PITCHER:</p>
+                    <p class="text-xs text-slate-700 mb-2 font-black">⚡ REGISTRO RÁPIDO PARA PITCHER:</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-900/60 hover:bg-red-700 text-red-200 p-2.5 rounded-xl text-xs font-bold transition">🔴 Ponche Logrado</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-yellow-900/60 hover:bg-yellow-700 text-yellow-200 p-2.5 rounded-xl text-xs font-bold transition">🟡 Base por Bolas</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-900/60 hover:bg-orange-700 text-orange-200 p-2.5 rounded-xl text-xs font-bold transition">💥 Hit Permitido</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-900/60 hover:bg-blue-700 text-blue-200 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-800 p-2.5 rounded-xl text-xs font-bold transition">🔴 Ponche Logrado</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-800 p-2.5 rounded-xl text-xs font-bold transition">🟡 Base por Bolas</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-50 hover:bg-orange-100 border border-orange-300 text-orange-800 p-2.5 rounded-xl text-xs font-bold transition">💥 Hit Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-800 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Permitido</button>
                     </div>
                     <div class="flex gap-2 items-center">
-                        <label class="text-xs text-slate-400">Tipo de Pitcheo:</label>
-                        <select id="pitcherTipoPitcheo" class="bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-white">
+                        <label class="text-xs font-bold text-slate-700">Tipo de Pitcheo:</label>
+                        <select id="pitcherTipoPitcheo" class="bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-slate-900 font-semibold">
                             <option value="Recta Fuerte">Recta Fuerte</option>
                             <option value="Slider">Slider</option>
                             <option value="Curva">Curva</option>
                             <option value="Cambio">Cambio</option>
-                            <option value="Pitcheo No Reconocido">Pitcheo No Reconocido (?) </option>
+                            <option value="Pitcheo No Reconocido">Pitcheo No Reconocido (?)</option>
                         </select>
                     </div>
                 `;
             } else {
                 botonera.innerHTML = `
-                    <p class="text-xs text-slate-400 mb-2 font-bold">⚾ TABLERO TÁCTICO DE BATEO Y JUGADAS:</p>
+                    <p class="text-xs text-slate-700 mb-2 font-black">⚾ TABLERO TÁCTICO DE BATEO Y JUGADAS:</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">👈 Jardín Izquierdo</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">⬆️ Jardín Central</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Derecho')" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">👉 Jardín Derecho</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Exitoso')" class="bg-emerald-900/60 hover:bg-emerald-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">✅ Toque Exitoso</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Fallido')" class="bg-amber-900/60 hover:bg-amber-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">⚠️ Toque Fallido</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Bola Ocupada')" class="bg-purple-900/60 hover:bg-purple-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">🔄 Bola Ocupada</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Robo de Base Exitoso')" class="bg-blue-900/60 hover:bg-blue-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">⚡ Robo Exitoso</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Ponche / Out')" class="bg-red-900/60 hover:bg-red-700 text-white p-2.5 rounded-xl text-xs font-bold transition border border-slate-700">❌ Ponche / Out</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">👈 Jardín Izquierdo</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">⬆️ Jardín Central</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Derecho')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">👉 Jardín Derecho</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Exitoso')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-2.5 rounded-xl text-xs font-bold transition">✅ Toque Exitoso</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Fallido')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs font-bold transition">⚠️ Toque Fallido</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Bola Ocupada')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-2.5 rounded-xl text-xs font-bold transition">🔄 Bola Ocupada</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Robo de Base Exitoso')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Exitoso</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Ponche / Out')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-2.5 rounded-xl text-xs font-bold transition">❌ Ponche / Out</button>
                     </div>
                     <div class="flex gap-2 items-center">
-                        <label class="text-xs text-slate-400">Pitcheo Recibido:</label>
-                        <select id="bateadorPitcheo" class="bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-white">
+                        <label class="text-xs font-bold text-slate-700">Pitcheo Recibido:</label>
+                        <select id="bateadorPitcheo" class="bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-slate-900 font-semibold">
                             <option value="Recta">Recta</option>
                             <option value="Slider">Slider</option>
                             <option value="Curva">Curva</option>
@@ -424,9 +410,6 @@
             document.getElementById('seccionReporteGeneral').classList.remove('hidden');
 
             document.getElementById('tituloReporteGeneral').innerText = `Reportes del Equipo: ${equipoSeleccionado}`;
-            const tituloMaster = document.getElementById('tituloReporteGeneral');
-            tituloMaster.className = ligaActual === 'AGRICULTORES' ? "text-xl font-bold border-l-4 border-yellow-500 pl-3 text-yellow-400" : "text-xl font-bold border-l-4 border-orange-500 pl-3 text-orange-400";
-
             renderizarContenidoReporteGeneral();
         };
 
@@ -435,7 +418,7 @@
             ['batNormal', 'batPersonal', 'pitcherNormal', 'pitcherPersonal'].forEach(t => {
                 const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
                 if (btn) {
-                    btn.className = t === tipo ? "px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md" : "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300";
+                    btn.className = t === tipo ? "px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md" : "px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700";
                 }
             });
             renderizarContenidoReporteGeneral();
@@ -447,23 +430,25 @@
 
             const rosterEquipo = jugadores.filter(j => j.liga === ligaActual && j.equipo === equipoSeleccionado);
             if (rosterEquipo.length === 0) {
-                contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4">No hay jugadores registrados en este equipo.</p>';
+                contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay jugadores registrados en este equipo.</p>';
                 return;
             }
 
             rosterEquipo.forEach(j => {
                 let mostrar = false;
-                if (pestanaReporteActual.includes('bat') && j.rol === 'Bateador') mostrar = true;
-                if (pestanaReporteActual.includes('pitcher') && j.rol === 'Pitcher') mostrar = true;
+                if (pestanaReporteActual === 'batNormal' && j.rol === 'Bateador') mostrar = true;
+                if (pestanaReporteActual === 'batPersonal' && j.rol === 'Bateador') mostrar = true;
+                if (pestanaReporteActual === 'pitcherNormal' && j.rol === 'Pitcher') mostrar = true;
+                if (pestanaReporteActual === 'pitcherPersonal' && j.rol === 'Pitcher') mostrar = true;
 
                 if (mostrar) {
                     let tipoR = pestanaReporteActual.includes('Personal') ? 'personal' : 'normal';
-                    contenedor.innerHTML += `<div class="print-card bg-black border border-slate-800 p-4 rounded-2xl mb-4 shadow-md">${generarHTMLReporteJugador(j.id, tipoR)}</div>`;
+                    contenedor.innerHTML += `<div class="print-card bg-white border border-slate-200 p-5 rounded-3xl mb-4 shadow-md">${generarHTMLReporteJugador(j.id, tipoR)}</div>`;
                 }
             });
 
             if (contenedor.innerHTML === '') {
-                contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4">No hay jugadores para esta categoría en el equipo.</p>';
+                contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay jugadores para esta categoría en el equipo.</p>';
             }
         }
 
@@ -474,14 +459,13 @@
             const turnosJugador = turnos.filter(t => t.jugadorId == idJugador);
             const total = turnosJugador.length;
 
-            let colorTextoRol = ligaActual === 'AGRICULTORES' ? 'text-yellow-400' : 'text-orange-400';
-            let nombreMostrado = jugador ? `${jugador.nombre} <span class="${colorTextoRol}">[${jugador.rol} - ${jugador.perfil}]</span>` : "Jugador";
+            let nombreMostrado = jugador ? `${jugador.nombre} <span class="text-blue-600 font-bold">[${jugador.rol} - ${jugador.perfil}]</span>` : "Jugador";
 
             if (total === 0) {
                 return `
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-center text-slate-400">
-                        <h4 class="font-bold text-white text-xs mb-1">${nombreMostrado}</h4>
-                        <p class="text-[10px]">Sin registros todavía.</p>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-slate-500">
+                        <h4 class="font-bold text-slate-900 text-xs mb-1">${nombreMostrado}</h4>
+                        <p class="text-[10px] font-semibold">Sin registros todavía.</p>
                     </div>
                 `;
             }
@@ -493,24 +477,24 @@
                 
                 if (modo === 'personal') {
                     return `
-                        <div class="print-compact">
-                            <div class="flex justify-between items-center border-b border-slate-800 pb-1 mb-1">
-                                <h5 class="font-bold text-white text-xs">${nombreMostrado}</h5>
-                                <span class="text-[10px] text-slate-400">Batallas: ${total}</span>
+                        <div class="print-compact border border-slate-300 rounded-2xl p-4 bg-white">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
+                                <h5 class="font-black text-slate-900 text-xs">${nombreMostrado}</h5>
+                                <span class="text-[10px] text-slate-600 font-bold">Batallas: ${total}</span>
                             </div>
-                            <p class="text-[11px] text-slate-300"><strong>Guía Pitcher:</strong> ${analisis}</p>
+                            <p class="text-[11px] text-slate-800 font-medium"><strong>Guía Pitcher:</strong> ${analisis}</p>
                         </div>
                     `;
                 }
 
                 return `
-                    <div class="print-card bg-black border border-slate-800 p-4 rounded-2xl">
-                        <div class="flex justify-between items-center mb-2 border-b border-slate-800 pb-2">
-                            <h4 class="font-bold text-white text-sm">${nombreMostrado}</h4>
-                            <span class="text-xs text-slate-400">Registros: ${total}</span>
+                    <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
+                        <div class="flex justify-between items-center mb-2 border-b border-slate-200 pb-2">
+                            <h4 class="font-black text-slate-900 text-sm">${nombreMostrado}</h4>
+                            <span class="text-xs text-slate-600 font-bold">Registros: ${total}</span>
                         </div>
-                        <p class="text-xs text-white mb-2"><strong>Análisis del Lanzador:</strong> ${analisis}</p>
-                        <div class="text-[11px] text-slate-400">Control: Ponches (${ponches}) vs Bases por bolas (${bases})</div>
+                        <p class="text-xs text-slate-900 mb-2 font-semibold"><strong>Análisis del Lanzador:</strong> ${analisis}</p>
+                        <div class="text-[11px] text-slate-600 font-medium">Control: Ponches (${ponches}) vs Bases por bolas (${bases})</div>
                     </div>
                 `;
             }
@@ -538,50 +522,57 @@
                 instruccionesCuadro = "Short stop y 2da base atentos para cerrar la doble matanza.";
             }
 
+            // Función para determinar color de zona (Verde, Amarillo, Rojo)
+            function obtenerColorZona(porcentaje) {
+                if (porcentaje >= 40) return 'bg-red-600 text-white font-black border-red-700 shadow-md';
+                if (porcentaje >= 20) return 'bg-amber-500 text-slate-950 font-bold border-amber-600';
+                return 'bg-emerald-600 text-white font-bold border-emerald-700';
+            }
+
             if (modo === 'personal') {
                 return `
-                    <div class="print-compact">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-1 mb-1">
-                            <h5 class="font-bold text-white text-xs">${nombreMostrado}</h5>
-                            <span class="text-[10px] text-slate-400">Turnos: ${total}</span>
+                    <div class="print-compact border border-slate-300 rounded-2xl p-4 bg-white">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
+                            <h5 class="font-black text-slate-900 text-xs">${nombreMostrado}</h5>
+                            <span class="text-[10px] text-slate-600 font-bold">Turnos: ${total}</span>
                         </div>
-                        <p class="text-[11px] text-slate-300"><strong>Outfield:</strong> ${acomodoDefensivo}</p>
-                        <p class="text-[11px] text-slate-300"><strong>Infield:</strong> ${instruccionesCuadro}</p>
+                        <p class="text-[11px] text-slate-800 font-medium"><strong>Outfield:</strong> ${acomodoDefensivo}</p>
+                        <p class="text-[11px] text-slate-800 font-medium"><strong>Infield:</strong> ${instruccionesCuadro}</p>
                     </div>
                 `;
             }
 
-            // GRÁFICA DE CAMPO DE BÉISBOL VISUAL E INTEGRADA
+            // GRÁFICA DE CAMPO DE BÉISBOL VISUAL EN FORMA DE DIAMANTE / ZONAS
             return `
-                <div class="print-card bg-black border border-slate-800 p-4 rounded-2xl">
-                    <div class="flex justify-between items-center mb-2 border-b border-slate-800 pb-2">
-                        <h4 class="font-bold text-white text-sm">${nombreMostrado}</h4>
-                        <span class="text-xs text-slate-400">Turnos analizados: ${total}</span>
+                <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
+                    <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+                        <h4 class="font-black text-slate-900 text-sm">${nombreMostrado}</h4>
+                        <span class="text-xs text-slate-600 font-bold">Turnos analizados: ${total}</span>
                     </div>
 
-                    <div class="mb-3 bg-slate-950 border border-slate-800 p-3 rounded-xl text-center relative">
-                        <p class="text-[10px] text-slate-400 uppercase font-black mb-2">🏟️ MAPA TÁCTICO DEL CAMPO DE BÉISBOL</p>
+                    <div class="mb-4 bg-emerald-900 border-4 border-emerald-950 p-4 rounded-2xl text-center relative shadow-inner">
+                        <p class="text-[10px] text-emerald-200 uppercase font-black mb-3 tracking-widest">🏟️ MAPA TÁCTICO DEL CAMPO DE BÉISBOL (ZONAS)</p>
                         
-                        <div class="grid grid-cols-3 gap-2 max-w-md mx-auto">
-                            <div class="p-3 rounded-xl border flex flex-col justify-center items-center ${pIzq > 40 ? 'bg-red-600 border-red-500 text-white font-black' : (pIzq > 20 ? 'bg-amber-500 border-amber-400 text-black font-bold' : 'bg-emerald-700 border-emerald-600 text-white')}">
-                                <span class="text-[9px] uppercase">Jardín Izquierdo</span>
-                                <span class="text-lg">${pIzq}%</span>
+                        <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
+                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pIzq)}">
+                                <span class="text-[9px] uppercase tracking-wider">Jardín Izquierdo</span>
+                                <span class="text-xl">${pIzq}%</span>
                             </div>
-                            <div class="p-3 rounded-xl border flex flex-col justify-center items-center ${pCent > 40 ? 'bg-red-600 border-red-500 text-white font-black' : (pCent > 20 ? 'bg-amber-500 border-amber-400 text-black font-bold' : 'bg-emerald-700 border-emerald-600 text-white')}">
-                                <span class="text-[9px] uppercase">Jardín Central</span>
-                                <span class="text-lg">${pCent}%</span>
+                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pCent)}">
+                                <span class="text-[9px] uppercase tracking-wider">Jardín Central</span>
+                                <span class="text-xl">${pCent}%</span>
                             </div>
-                            <div class="p-3 rounded-xl border flex flex-col justify-center items-center ${pDer > 40 ? 'bg-red-600 border-red-500 text-white font-black' : (pDer > 20 ? 'bg-amber-500 border-amber-400 text-black font-bold' : 'bg-emerald-700 border-emerald-600 text-white')}">
-                                <span class="text-[9px] uppercase">Jardín Derecho</span>
-                                <span class="text-lg">${pDer}%</span>
+                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pDer)}">
+                                <span class="text-[9px] uppercase tracking-wider">Jardín Derecho</span>
+                                <span class="text-xl">${pDer}%</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-                        <h5 class="text-[10px] font-black text-orange-400 uppercase mb-1">🎯 Acomodo Defensivo Sugerido</h5>
-                        <p class="text-xs text-white mb-1"><strong>Outfield:</strong> ${acomodoDefensivo}</p>
-                        <p class="text-xs text-slate-300"><strong>Infield / Cuadro:</strong> ${instruccionesCuadro}</p>
+                    <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
+                        <h5 class="text-[10px] font-black text-blue-600 uppercase mb-1 tracking-wider">🎯 Acomodo Defensivo Sugerido</h5>
+                        <p class="text-xs text-slate-900 font-semibold mb-1"><strong>Outfield:</strong> ${acomodoDefensivo}</p>
+                        <p class="text-xs text-slate-700 font-medium"><strong>Infield / Cuadro:</strong> ${instruccionesCuadro}</p>
                     </div>
                 </div>
             `;
