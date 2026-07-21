@@ -81,7 +81,70 @@
                 </table>
             </div>
         </section>
-    </main>
+    </main><section class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mt-8">
+            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Scouting Táctico de Turno al Bat</h2>
+            
+            <form id="scoutingForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm text-neutral-300 mb-1">Seleccionar Jugador / Rival</label>
+                    <select id="scoutJugador" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none" required>
+                        <option value="">-- Elige un jugador registrado --</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm text-neutral-300 mb-1">Tipo de Batazo / Resultado</label>
+                    <select id="scoutResultado" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none">
+                        <option value="Fly al Izquierdo">Fly al Izquierdo</option>
+                        <option value="Fly al Central">Fly al Central</option>
+                        <option value="Fly al Derecho">Fly al Derecho</option>
+                        <option value="Roller al Short">Roller al Short</option>
+                        <option value="Roller a Segunda">Roller a Segunda</option>
+                        <option value="Roller a Tercera">Roller a Tercera</option>
+                        <option value="Roller a Primera">Roller a Primera</option>
+                        <option value="Línea">Línea</option>
+                        <option value="Ponche (Abanicado)">Ponche (Abanicado)</option>
+                        <option value="Ponche (Mirando)">Ponche (Mirando)</option>
+                        <option value="Base por Bolas">Base por Bolas</option>
+                        <option value="Hit / Imparable">Hit / Imparable</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm text-neutral-300 mb-1">Lanzamiento Utilizado</label>
+                    <select id="scoutPitcheo" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none">
+                        <option value="Recta">Recta</option>
+                        <option value="Slider">Slider</option>
+                        <option value="Curva">Curva</option>
+                        <option value="Cambio">Cambio</option>
+                    </select>
+                </div>
+
+                <div class="md:col-span-3 pt-2">
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-3 px-4 rounded transition shadow-lg shadow-orange-600/30">
+                        Registrar Turno de Scouting
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8">
+                <h3 class="text-lg font-bold text-white mb-3">Historial de Turnos y Tendencias</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-neutral-300">
+                        <thead class="bg-black text-orange-500 uppercase text-xs border-b border-neutral-800">
+                            <tr>
+                                <th class="p-3">Equipo / Jugador</th>
+                                <th class="p-3">Resultado del Turno</th>
+                                <th class="p-3">Pitcheo Recibido</th>
+                                <th class="p-3 text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaScoutingBody" class="divide-y divide-neutral-800">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
     <footer class="bg-neutral-900 border-t border-neutral-800 py-4 text-center text-xs text-neutral-500">
         &copy; 2026 Alijadores Scouting &bull; Todos los derechos reservados.
