@@ -3,98 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alijadores Scouting</title>
+    <title>Alijadores Scouting - Sistema Táctico</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black text-white min-h-screen flex flex-col justify-between">
-
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
-        <header class="mb-8 flex items-center space-x-4 border-b border-neutral-800 pb-6">
-            <div class="w-16 h-16 bg-neutral-900 border border-orange-500 rounded-full flex items-center justify-center overflow-hidden shadow-md shadow-orange-500/20">
-                <span class="text-orange-500 font-bold text-xs">LOGO</span>
-            </div>
+    
+    <header class="bg-neutral-900 border-b border-neutral-800 py-4 px-6 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-3xl font-extrabold text-white tracking-wide">Alijadores de Estación Naranjo</h1>
-                <p class="text-orange-500 font-medium text-sm mt-1">Sistema de Scouting de Béisbol</p>
+                <h1 class="text-2xl font-extrabold text-white tracking-wide">Alijadores de Estación Naranjo</h1>
+                <p class="text-orange-500 font-medium text-xs">Sistema Profesional de Scouting y Táctica de Béisbol</p>
             </div>
-        </header>
+            <div class="text-xs text-neutral-400">Panel de Control Táctico</div>
+        </div>
+    </header>
 
-        <!-- Formulario de Registro -->
-        <section class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl">
-            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Registro para el Sistema de Scouting</h2>
-            <form id="registroForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
+        
+        <!-- Vista 1: Selector de Equipos en Cuadrícula -->
+        <section id="seccionEquipos" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8">
+            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Equipos Rival (Selecciona un cuadro)</h2>
+            <div id="cuadriculaEquipos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <!-- Se cargan dinámicamente las tarjetas de equipos -->
+            </div>
+            
+            <form id="registroForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-neutral-800">
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Nombre del Equipo</label>
-                    <input type="text" id="equipoNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none" placeholder="Ej. Alijadores" required>
+                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Equipo</label>
+                    <input type="text" id="equipoNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Águilas">
                 </div>
-                
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Nombre del Jugador</label>
-                    <input type="text" id="jugadorNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none" placeholder="Ej. Juan Pérez" required>
+                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Jugador</label>
+                    <input type="text" id="jugadorNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Juan Pérez" required>
                 </div>
-
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Posición Principal</label>
-                    <select id="jugadorPosicion" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none">
+                    <label class="block text-xs text-neutral-400 mb-1">Posición Principal</label>
+                    <select id="jugadorPosicion" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none">
                         <option value="P">Pitcher (P)</option>
                         <option value="C">Catcher (C)</option>
-                        <option value="1B">Primera Base (1B)</option>
-                        <option value="2B">Segunda Base (2B)</option>
-                        <option value="3B">Tercera Base (3B)</option>
-                        <option value="SS">Shortstop (SS)</option>
+                        <option value="1B">1B</option>
+                        <option value="2B">2B</option>
+                        <option value="3B">3B</option>
+                        <option value="SS">SS</option>
                         <option value="OF">Jardinero (OF)</option>
                     </select>
                 </div>
-
-                <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Bateo / Perfil</label>
-                    <input type="text" id="jugadorPerfil" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none" placeholder="Ej. Derecho / Contacto">
-                </div>
-
-                <div class="md:col-span-2 pt-2">
-                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-3 px-4 rounded transition shadow-lg shadow-orange-600/30">
-                        Guardar Registro en el Sistema
+                <div class="md:col-span-3">
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-2 px-4 rounded text-sm transition">
+                        Guardar Jugador en el Equipo
                     </button>
                 </div>
             </form>
         </section>
 
-        <!-- Listado de Jugadores Registrados -->
-        <section class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mt-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Plantilla Registrada</h2>
-            
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-neutral-300">
-                    <thead class="bg-black text-orange-500 uppercase text-xs border-b border-neutral-800">
-                        <tr>
-                            <th class="p-3">Equipo</th>
-                            <th class="p-3">Jugador</th>
-                            <th class="p-3">Posición</th>
-                            <th class="p-3">Perfil / Bateo</th>
-                            <th class="p-3 text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaJugadoresBody" class="divide-y divide-neutral-800">
-                        <!-- Los registros se cargarán automáticamente aquí -->
-                    </tbody>
-                </table>
+        <!-- Vista 2: Roster del Equipo Seleccionado -->
+        <section id="seccionRoster" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="tituloRosterEquipo" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Plantilla</h2>
+                <button onclick="cerrarRoster()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Volver a Equipos</button>
+            </div>
+            <div id="cuadriculaJugadoresEquipo" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Tarjetas de jugadores de este equipo -->
             </div>
         </section>
-<!-- Módulo de Scouting Táctico y Reporte Defensivo Avanzado -->
-        <section class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mt-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Scouting Táctico, Toques y Robos por Turno</h2>
-            
-            <form id="scoutingForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Seleccionar Jugador Rival</label>
-                    <select id="scoutJugador" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none" required>
-                        <option value="">-- Elige un jugador --</option>
-                    </select>
-                </div>
 
+        <!-- Vista 3: Ficha Individual y Gráfica de Terreno -->
+        <section id="seccionFichaIndividual" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="tituloFichaJugador" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Ficha Táctica Individual</h2>
+                <div class="space-x-2">
+                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir Reporte</button>
+                    <button onclick="cerrarFicha()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Cerrar Ficha</button>
+                </div>
+            </div>
+
+            <!-- Registro rápido de turno para este jugador -->
+            <form id="scoutingForm" class="bg-black p-4 rounded-lg border border-neutral-800 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="hidden" id="scoutJugadorId">
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Acción / Resultado del Turno</label>
-                    <select id="scoutResultado" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none">
+                    <label class="block text-xs text-neutral-400 mb-1">Acción / Batazo</label>
+                    <select id="scoutResultado" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
                         <option value="Fly al Izquierdo">Fly al Izquierdo</option>
                         <option value="Fly al Central">Fly al Central</option>
                         <option value="Fly al Derecho">Fly al Derecho</option>
@@ -105,16 +93,14 @@
                         <option value="Línea">Línea</option>
                         <option value="Toque de Sorpresa (Bunt)">⚠️ Toque de Sorpresa (Bunt)</option>
                         <option value="Robo de Base Exitoso">⚡ Robo de Base Exitoso</option>
-                        <option value="Ponche (Abanicado)">Ponche (Abanicado)</option>
-                        <option value="Ponche (Mirando)">Ponche (Mirando)</option>
+                        <option value="Ponche">Ponche</option>
                         <option value="Base por Bolas">Base por Bolas</option>
                         <option value="Hit / Imparable">Hit / Imparable</option>
                     </select>
                 </div>
-
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Pitcheo Utilizado (Opcional)</label>
-                    <select id="scoutPitcheo" class="w-full bg-black border border-neutral-700 rounded p-2 text-white focus:border-orange-500 focus:outline-none">
+                    <label class="block text-xs text-neutral-400 mb-1">Pitcheo Utilizado (Opcional)</label>
+                    <select id="scoutPitcheo" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
                         <option value="No especificado">-- No especificado --</option>
                         <option value="Recta">Recta</option>
                         <option value="Slider">Slider</option>
@@ -122,43 +108,19 @@
                         <option value="Cambio">Cambio</option>
                     </select>
                 </div>
-
-                <div class="md:col-span-3 pt-2">
-                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-3 px-4 rounded transition shadow-lg shadow-orange-600/30">
-                        Registrar Turno y Actualizar Alertas Tácticas
-                    </button>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-2 px-4 rounded text-sm">Registrar Turno</button>
                 </div>
             </form>
 
-            <!-- Panel de Recomendaciones Defensivas Inteligentes -->
-            <div class="mt-8 bg-black border border-orange-500/30 rounded-xl p-5">
-                <h3 class="text-lg font-bold text-orange-400 mb-2">🎯 Reporte Defensivo y Alertas en Vivo</h3>
-                <p class="text-xs text-neutral-400 mb-4">El sistema analiza automáticamente las tendencias, te indica hacia dónde juega la defensiva y te avisa si el rival busca el toque o el robo:</p>
-                <div id="panelRecomendaciones" class="space-y-3">
-                    <div class="text-neutral-500 text-sm">Selecciona un jugador o registra turnos para generar el reporte defensivo automático.</div>
-                </div>
-            </div>
-
-            <!-- Historial de Turnos -->
-            <div class="mt-8">
-                <h3 class="text-lg font-bold text-white mb-3">Historial General de Turnos</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-neutral-300">
-                        <thead class="bg-black text-orange-500 uppercase text-xs border-b border-neutral-800">
-                            <tr>
-                                <th class="p-3">Jugador / Equipo</th>
-                                <th class="p-3">Acción / Batazo</th>
-                                <th class="p-3">Pitcheo</th>
-                                <th class="p-3 text-center">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaScoutingBody" class="divide-y divide-neutral-800">
-                            <!-- Turnos -->
-                        </tbody>
-                    </table>
-                </div>
+            <!-- Apartado visual con el estadio, porcentajes, alertas de robo/toque y pitcheos -->
+            <div id="reporteJugadorDetalle" class="space-y-4">
+                <!-- Se inyecta la ficha gráfica -->
             </div>
         </section>
+
+    </main>
+
     <footer class="bg-neutral-900 border-t border-neutral-800 py-4 text-center text-xs text-neutral-500">
         &copy; 2026 Alijadores Scouting &bull; Todos los derechos reservados.
     </footer>
