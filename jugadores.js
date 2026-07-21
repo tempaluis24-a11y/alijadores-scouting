@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombre = document.getElementById('jugadorNombre').value.trim();
             const posicion = document.getElementById('jugadorPosicion').value;
 
-            // Si está dentro de un equipo y no llenó el input, usa el equipo activo; si puso uno nuevo, lo crea
             let equipoFinal = equipoInput !== '' ? equipoInput : equipoSeleccionado;
 
             if (!equipoFinal) {
@@ -83,11 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         contenedor.innerHTML = '';
         
-        // Obtener equipos únicos
         const equiposUnicos = [...new Set(jugadores.map(j => j.equipo))];
 
         if (equiposUnicos.length === 0) {
-            contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos registrados. Escribe uno abajo para empezar.</div>';
+            contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos registrados. Escribe uno arriba para empezar.</div>';
             return;
         }
 
@@ -116,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const jugadoresEquipo = jugadores.filter(j => j.equipo === nombreEquipo);
 
         if (jugadoresEquipo.length === 0) {
-            contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm">No hay jugadores en este equipo. Usa el formulario principal para agregarlos.</div>';
+            contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm">No hay jugadores en este equipo. Usa el formulario de arriba para agregarlos.</div>';
             return;
         }
 
@@ -150,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('tituloFichaJugador').innerText = `Ficha Táctica: ${jugador.nombre} [${jugador.posicion}]`;
         document.getElementById('scoutJugadorId').value = jugador.id;
 
-        // Renderizar gráfica de terreno, porcentajes y alertas
         renderizarFichaDetalle(idJugador);
     };
 
@@ -177,7 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Cálculos de zonas de batazo
         let izq = turnosJugador.filter(t => t.resultado.includes('Izquierdo')).length;
         let central = turnosJugador.filter(t => t.resultado.includes('Central')).length;
         let der = turnosJugador.filter(t => t.resultado.includes('Derecho')).length;
@@ -188,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let pCent = Math.round((central / total) * 100) || 0;
         let pDer = Math.round((der / total) * 100) || 0;
 
-        // Desglose de pitcheos recibidos
         let pitcheosConteo = {};
         turnosJugador.forEach(t => {
             if (t.pitcheo && t.pitcheo !== 'No especificado') {
@@ -197,13 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         let htmlPitcheos = '';
-        for (let [pit, count] % of Object.entries(pitcheosConteo)) {
+        for (let [pit, count] of Object.entries(pitcheosConteo)) {
             let pPit = Math.round((count / total) * 100);
             htmlPitcheos += `<span class="bg-neutral-800 text-neutral-300 px-2 py-1 rounded text-xs">${pit}: ${count} (${pPit}%)</span> `;
         }
         if (htmlPitcheos === '') htmlPitcheos = '<span class="text-neutral-500 text-xs">Sin pitcheos específicos registrados</span>';
 
-        // Consejo defensivo automático
         let consejoDefensa = "Jugar en posición estándar.";
         if (pDer > pIzq && pDer > pCent) consejoDefensa = "⚠️ Alta tendencia a jalar al jardín derecho. **Defensiva cargada al Right Field.**";
         else if (pIzq > pDer && pIzq > pCent) consejoDefensa = "⚠️ Alta tendencia a jalar al jardín izquierdo. **Defensiva cargada al Left Field.**";
@@ -212,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let alertaToque = toques > 0 ? `<div class="text-yellow-400 font-semibold text-xs mt-2">⚠️ ¡ALERTA DE TOQUE! Ha intentado toque de sorpresa ${toques} veces. 3era y 1era base deben jugar adelantados.</div>` : '';
         let alertaRobo = robos > 0 ? `<div class="text-orange-400 font-semibold text-xs mt-2">⚡ ¡PELIGRO EN BASES! Amenaza de robo detectada (${robos} veces). Cátcher atento a reviradas.</div>` : '';
 
-        // Estructura visual del reporte y gráfica de campo
         contenedor.innerHTML = `
             <div class="bg-black border border-orange-500/30 p-5 rounded-xl">
                 <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-3">
@@ -222,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <!-- Simulación Gráfica del Terreno de Béisbol y Porcentajes -->
                 <div class="grid grid-cols-3 gap-2 bg-neutral-900 border border-neutral-800 p-4 rounded-lg text-center mb-4">
                     <div class="bg-black/60 p-3 rounded border border-neutral-800">
                         <span class="block text-xs text-neutral-400 uppercase">Jardín Izquierdo</span>
@@ -238,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <!-- Recomendaciones y Alertas -->
                 <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg mb-4">
                     <h5 class="text-xs font-bold text-neutral-400 uppercase mb-1">Acomodo Defensivo Sugerido</h5>
                     <p class="text-sm text-white">${consejoDefensa}</p>
@@ -246,7 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${alertaRobo}
                 </div>
 
-                <!-- Desglose de Pitcheo y Historial Individual -->
                 <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg">
                     <h5 class="text-xs font-bold text-neutral-400 uppercase mb-2">Desglose de Pitcheos Recibidos</h5>
                     <div class="flex flex-wrap gap-2 mb-4">${htmlPitcheos}</div>
@@ -273,6 +263,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Inicializar vista general al cargar la página
     renderizarEquipos();
 });
