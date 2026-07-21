@@ -62,7 +62,79 @@
             </form>
         </section>
     </main>
+// Lógica para registrar y listar jugadores del sistema de scouting
+document.addEventListener("DOMContentLoaded", () => {
+    const registroForm = document.getElementById("registroForm");
+    const tablaBody = document.getElementById("tablaJugadoresBody");
 
+    // Función para mostrar los jugadores en la tabla
+    function cargarJugadores() {
+        if (!tablaBody) return;
+        const jugadores = JSON.parse(localStorage.getItem("alijadores_jugadores")) || [];
+        
+        tablaBody.innerHTML = "";
+
+        if (jugadores.length === 0) {
+            tablaBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-neutral-500">No hay jugadores registrados todavía.</td></tr>`;
+            return;
+        }
+
+        jugadores.forEach((j) => {
+            const fila = document.createElement("tr");
+            fila.className = "hover:bg-neutral-800/50 transition";
+            fila.innerHTML = `
+                <td class="p-3 font-semibold text-white">${j.equipo}</td>
+                <td class="p-3 text-white">${j.nombre}</td>
+                <td class="p-3"><span class="bg-orange-500/10 text-orange-400 px-2 py-1 rounded text-xs font-bold border border-orange-500/20">${j.posicion}</span></td>
+                <td class="p-3 text-neutral-400">${j.perfil || 'N/D'}</td>
+                <td class="p-3 text-center">
+                    <button onclick="eliminarJugador(${j.id})" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-2 py-1 rounded text-xs transition border border-red-500/30">
+                        Eliminar
+                    </button>
+                </td>
+            `;
+            tablaBody.appendChild(fila);
+        });
+    }
+
+    // Función para eliminar un jugador
+    window.eliminarJugador = function(id) {
+        let jugadores = JSON.parse(localStorage.getItem("alijadores_jugadores")) || [];
+        jugadores = jugadores.filter(j => j.id !== id);
+        localStorage.setItem("alijadores_jugadores", JSON.stringify(jugadores));
+        cargarJugadores();
+    };
+
+    // Evento del formulario al enviar
+    if (registroForm) {
+        registroForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const equipo = document.getElementById("equipoNombre").value.trim();
+            const nombre = document.getElementById("jugadorNombre").value.trim();
+            const posicion = document.getElementById("jugadorPosicion").value;
+            const perfil = document.getElementById("jugadorPerfil").value.trim();
+
+            const nuevoJugador = {
+                id: Date.now(),
+                equipo,
+                nombre,
+                posicion,
+                perfil
+            };
+
+            let jugadores = JSON.parse(localStorage.getItem("alijadores_jugadores")) || [];
+            jugadores.push(nuevoJugador);
+            localStorage.setItem("alijadores_jugadores", JSON.stringify(jugadores));
+
+            registroForm.reset();
+            cargarJugadores();
+        });
+    }
+
+    // Cargar la tabla al abrir la página
+    cargarJugadores();
+});
     <footer class="bg-neutral-900 border-t border-neutral-800 py-4 text-center text-xs text-neutral-500">
         &copy; 2026 Alijadores Scouting &bull; Todos los derechos reservados.
     </footer>
