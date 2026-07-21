@@ -15,14 +15,12 @@
 </head>
 <body id="cuerpoPrincipal" class="bg-black text-white min-h-screen flex flex-col justify-between transition-colors duration-500">
     
-    <!-- HEADER PRINCIPAL -->
-    <header id="headerApp" class="bg-neutral-900 border-b border-neutral-800 py-4 px-6 shadow-md no-print">
+    <header class="bg-neutral-900 border-b border-neutral-800 py-4 px-6 shadow-md no-print">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <!-- Avatar / Logo clickeable para subir imagen de archivo -->
-                <div class="relative cursor-pointer group" onclick="document.getElementById('inputSubirLogo').click()" title="Haz clic para cambiar el logo">
+                <div class="relative cursor-pointer group" onclick="document.getElementById('inputSubirLogo').click()" title="Haz clic para subir tu logo">
                     <img id="logoEmpresa" src="https://via.placeholder.com/45" alt="Logo" class="w-11 h-11 rounded-full object-cover border-2 border-orange-500 bg-neutral-800">
-                    <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[9px] text-white">Cambiar</div>
+                    <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[9px] text-white">Subir</div>
                 </div>
                 <input type="file" id="inputSubirLogo" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event)">
                 <div>
@@ -36,43 +34,38 @@
 
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         
-        <!-- VISTA 0: PORTADA PRINCIPAL (Elegir Liga APC o Agricultores de Calderón) -->
+        <!-- VISTA PORTADA: LIGA APC Y AGRICULTORES DE CALDERÓN -->
         <section id="vistaPortada" class="py-12 text-center">
             <div class="mb-8">
                 <h2 class="text-3xl font-black tracking-wider text-white mb-2">SELECCIONA TU PROYECTO DE LIGA</h2>
-                <p class="text-sm text-neutral-400">Plataforma de Análisis y Scouting Creada por LG BeisVisual</p>
+                <p class="text-sm text-neutral-400">Plataforma Creada y Diseñada por LG BeisVisual</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mt-8">
-                <!-- Tarjeta Liga APC -->
-                <div onclick="entrar Liga('APC')" class="bg-neutral-900 border-2 border-orange-500/50 hover:border-orange-500 p-8 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-2xl text-center group">
+                <div onclick="entrarLiga('APC')" class="bg-neutral-900 border-2 border-orange-500/50 hover:border-orange-500 p-8 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-2xl text-center group">
                     <div class="text-4xl mb-3">⚾</div>
                     <h3 class="text-2xl font-black text-white group-hover:text-orange-400 mb-2">LIGA APC</h3>
-                    <p class="text-xs text-neutral-400">Estudio táctico, bateadores y pitchers rivales.</p>
+                    <p class="text-xs text-neutral-400">Estudio táctico y reportes de bateo/pitcheo.</p>
                     <span class="inline-block mt-4 bg-orange-600 text-black font-bold text-xs px-4 py-2 rounded-lg">Ingresar a APC</span>
                 </div>
 
-                <!-- Tarjeta Agricultores de Calderón -->
                 <div onclick="entrarLiga('AGRICULTORES')" class="bg-neutral-900 border-2 border-yellow-500/50 hover:border-yellow-400 p-8 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-2xl text-center group">
                     <div class="text-4xl mb-3">🌾</div>
                     <h3 class="text-2xl font-black text-yellow-400 group-hover:text-yellow-300 mb-2">AGRICULTORES DE CALDERÓN</h3>
-                    <p class="text-xs text-neutral-300">Scouting especializado y reportes de zona.</p>
+                    <p class="text-xs text-neutral-300">Scouting especializado y análisis por zonas.</p>
                     <span class="inline-block mt-4 bg-yellow-500 text-black font-bold text-xs px-4 py-2 rounded-lg">Ingresar a Agricultores</span>
                 </div>
             </div>
         </section>
 
-        <!-- VISTA 1: PANEL DE EQUIPOS Y REGISTRO DE JUGADORES (Oculto al inicio) -->
+        <!-- VISTA EQUIPOS -->
         <section id="seccionEquipos" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 hidden no-print">
-            <h2 id="tituloSeccionEquipos" class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Equipos Rival (Liga Activa)</h2>
-            
-            <div id="cuadriculaEquipos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <!-- Tarjetas de equipos -->
-            </div>
+            <h2 id="tituloSeccionEquipos" class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Equipos Rival</h2>
+            <div id="cuadriculaEquipos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
             
             <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-neutral-800">
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Equipo Rival</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Equipo</label>
                     <input type="text" id="equipoNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Astros">
                 </div>
                 <div>
@@ -80,14 +73,14 @@
                     <input type="text" id="jugadorNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Carlos Correa" required>
                 </div>
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Rol en el Terreno</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Rol</label>
                     <select id="jugadorRol" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none">
-                        <option value="Bateador">Bateador / Jugador de Campo</option>
-                        <option value="Pitcher">Pitcher / Lanzador</option>
+                        <option value="Bateador">Bateador</option>
+                        <option value="Pitcher">Pitcher</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Perfil (Zurdo / Derecho)</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Perfil</label>
                     <select id="jugadorPerfil" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none">
                         <option value="Derecho (D)">Derecho (D)</option>
                         <option value="Zurdo (Z)">Zurdo (Z)</option>
@@ -95,47 +88,38 @@
                     </select>
                 </div>
                 <div class="md:col-span-4">
-                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-2 px-4 rounded text-sm transition">
-                        Guardar Jugador en el Equipo
-                    </button>
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-2 px-4 rounded text-sm transition">Guardar Jugador</button>
                 </div>
             </form>
         </section>
 
-        <!-- VISTA 2: ROSTER DEL EQUIPO SELECCIONADO -->
+        <!-- VISTA ROSTER -->
         <section id="seccionRoster" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 hidden">
             <div class="flex justify-between items-center mb-6 no-print">
                 <h2 id="tituloRosterEquipo" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Plantilla</h2>
                 <div class="space-x-2">
                     <button onclick="verReporteGeneral()" class="bg-orange-600 hover:bg-orange-500 text-black font-bold px-3 py-1 rounded text-xs">📊 Reporte Maestro</button>
-                    <button onclick="cerrarRoster()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Volver a Equipos</button>
+                    <button onclick="cerrarRoster()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Volver</button>
                 </div>
             </div>
-            <div id="cuadriculaJugadoresEquipo" class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
-                <!-- Tarjetas de jugadores -->
-            </div>
+            <div id="cuadriculaJugadoresEquipo" class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print"></div>
         </section>
 
-        <!-- VISTA 3: FICHA TÁCTICA INDIVIDUAL CON BOTONERA RÁPIDA -->
+        <!-- VISTA FICHA INDIVIDUAL -->
         <section id="seccionFichaIndividual" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl hidden">
             <div class="flex justify-between items-center mb-4 no-print">
-                <h2 id="tituloFichaJugador" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Ficha Individual</h2>
+                <h2 id="tituloFichaJugador" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Ficha Táctica</h2>
                 <div class="space-x-2">
-                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir Ficha</button>
-                    <button onclick="cerrarFicha()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Cerrar Ficha</button>
+                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir</button>
+                    <button onclick="cerrarFicha()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Cerrar</button>
                 </div>
             </div>
 
-            <!-- Tablero de Botones Tácticos Interactivos (Sin listas aburridas) -->
-            <div id="contenedorBotoneraTurno" class="no-print bg-black p-4 rounded-xl border border-neutral-800 mb-6">
-                <!-- Se inyecta la botonera según sea bateador o pitcher -->
-            </div>
-
-            <!-- Apartado visual de la Gráfica del Estadio y Reporte -->
+            <div id="contenedorBotoneraTurno" class="no-print bg-black p-4 rounded-xl border border-neutral-800 mb-6"></div>
             <div id="reporteJugadorDetalle" class="space-y-4"></div>
         </section>
 
-        <!-- VISTA 4: REPORTE MAESTRO GENERAL -->
+        <!-- VISTA REPORTE GENERAL -->
         <section id="seccionReporteGeneral" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl hidden">
             <div class="flex justify-between items-center mb-6 no-print">
                 <h2 id="tituloReporteGeneral" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Reporte Maestro</h2>
@@ -153,7 +137,6 @@
         &copy; 2026 LG BeisVisual &bull; Sistema Profesional de Scouting
     </footer>
 
-    <!-- LOGICA DE LA APLICACION -->
     <script>
         let ligaActual = null;
         let jugadores = JSON.parse(localStorage.getItem('lg_beisvisual_jugadores')) || [];
@@ -180,9 +163,7 @@
 
         window.onload = function() {
             const logoGuardado = localStorage.getItem('lg_beisvisual_logo');
-            if (logoGuardado) {
-                document.getElementById('logoEmpresa').src = logoGuardado;
-            }
+            if (logoGuardado) document.getElementById('logoEmpresa').src = logoGuardado;
         }
 
         window.entrarLiga = function(liga) {
@@ -267,7 +248,7 @@
             const equiposUnicos = [...new Set(equiposLiga.map(j => j.equipo))];
 
             if (equiposUnicos.length === 0) {
-                contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos en esta liga. Escribe uno abajo para empezar.</div>';
+                contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos en esta liga. Escribe uno arriba para empezar.</div>';
                 return;
             }
 
@@ -330,7 +311,7 @@
             
             if (jugador.rol === 'Pitcher') {
                 botonera.innerHTML = `
-                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚡ REGISTRO RÁPIDO PARA PITCHER (Haz clic en la acción):</p>
+                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚡ REGISTRO RÁPIDO PARA PITCHER:</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
                         <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-900/60 hover:bg-red-700 text-red-200 p-2 rounded text-xs font-bold transition">🔴 Ponche Logrado</button>
                         <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-yellow-900/60 hover:bg-yellow-700 text-yellow-200 p-2 rounded text-xs font-bold transition">🟡 Base por Bolas</button>
@@ -348,7 +329,7 @@
                 `;
             } else {
                 botonera.innerHTML = `
-                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚾ TABLERO TÁCTICO DE BATEO (Haz clic en la zona o jugada):</p>
+                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚾ TABLERO TÁCTICO DE BATEO:</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
                         <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-neutral-800 hover:bg-orange-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">👈 Jardín Izquierdo</button>
                         <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-neutral-800 hover:bg-orange-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">⬆️ Jardín Central</button>
@@ -419,7 +400,7 @@
                 return `
                     <div class="p-4 bg-neutral-900 border border-neutral-800 rounded-xl text-center text-neutral-400">
                         <h4 class="font-bold text-white text-base mb-1">${nombreMostrado}</h4>
-                        <p class="text-xs">Usa los botones superiores para registrar las primeras jugadas.</p>
+                        <p class="text-xs">Usa los botones superiores para registrar jugadas.</p>
                     </div>
                 `;
             }
@@ -459,7 +440,6 @@
                         <span class="text-xs text-neutral-400">Turnos: ${total}</span>
                     </div>
 
-                    <!-- GRÁFICA REAL DE ESTADIO CON SEMÁFORO -->
                     <div class="mb-4 bg-neutral-900 border border-neutral-800 p-4 rounded-xl text-center">
                         <p class="text-xs text-neutral-400 uppercase font-semibold mb-3">🏟️ Gráfica de Terreno - Tendencia de Conexión</p>
                         <div class="grid grid-cols-3 gap-2">
