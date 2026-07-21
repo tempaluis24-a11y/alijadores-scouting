@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alijadores Scouting - Táctica y Pitcheo</title>
+    <title>LG BeisVisual - Sistema Profesional de Scouting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
@@ -13,23 +13,58 @@
         }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen flex flex-col justify-between">
+<body id="cuerpoPrincipal" class="bg-black text-white min-h-screen flex flex-col justify-between transition-colors duration-500">
     
-    <header class="bg-neutral-900 border-b border-neutral-800 py-4 px-6 shadow-md no-print">
+    <!-- HEADER PRINCIPAL -->
+    <header id="headerApp" class="bg-neutral-900 border-b border-neutral-800 py-4 px-6 shadow-md no-print">
         <div class="container mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-extrabold text-white tracking-wide">Alijadores de Estación Naranjo</h1>
-                <p class="text-orange-500 font-medium text-xs">Sistema Profesional de Scouting de Bateo y Pitcheo</p>
+            <div class="flex items-center space-x-3">
+                <!-- Avatar / Logo clickeable para subir imagen de archivo -->
+                <div class="relative cursor-pointer group" onclick="document.getElementById('inputSubirLogo').click()" title="Haz clic para cambiar el logo">
+                    <img id="logoEmpresa" src="https://via.placeholder.com/45" alt="Logo" class="w-11 h-11 rounded-full object-cover border-2 border-orange-500 bg-neutral-800">
+                    <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[9px] text-white">Cambiar</div>
+                </div>
+                <input type="file" id="inputSubirLogo" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event)">
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-wide">LG BeisVisual</h1>
+                    <p id="subtituloLiga" class="text-orange-500 font-medium text-xs">Sistema Profesional de Scouting Táctico</p>
+                </div>
             </div>
-            <div class="text-xs text-neutral-400">Panel Táctico Oficial</div>
+            <button onclick="irAPortada()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded text-xs font-bold transition">🏠 Volver a Ligas</button>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         
-        <!-- Vista 1: Selector de Equipos y Registro con Perfil de Bateador / Pitcher -->
-        <section id="seccionEquipos" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 no-print">
-            <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Equipos Rival (Selecciona un equipo o registra)</h2>
+        <!-- VISTA 0: PORTADA PRINCIPAL (Elegir Liga APC o Agricultores de Calderón) -->
+        <section id="vistaPortada" class="py-12 text-center">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black tracking-wider text-white mb-2">SELECCIONA TU PROYECTO DE LIGA</h2>
+                <p class="text-sm text-neutral-400">Plataforma de Análisis y Scouting Creada por LG BeisVisual</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mt-8">
+                <!-- Tarjeta Liga APC -->
+                <div onclick="entrar Liga('APC')" class="bg-neutral-900 border-2 border-orange-500/50 hover:border-orange-500 p-8 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-2xl text-center group">
+                    <div class="text-4xl mb-3">⚾</div>
+                    <h3 class="text-2xl font-black text-white group-hover:text-orange-400 mb-2">LIGA APC</h3>
+                    <p class="text-xs text-neutral-400">Estudio táctico, bateadores y pitchers rivales.</p>
+                    <span class="inline-block mt-4 bg-orange-600 text-black font-bold text-xs px-4 py-2 rounded-lg">Ingresar a APC</span>
+                </div>
+
+                <!-- Tarjeta Agricultores de Calderón -->
+                <div onclick="entrarLiga('AGRICULTORES')" class="bg-neutral-900 border-2 border-yellow-500/50 hover:border-yellow-400 p-8 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-2xl text-center group">
+                    <div class="text-4xl mb-3">🌾</div>
+                    <h3 class="text-2xl font-black text-yellow-400 group-hover:text-yellow-300 mb-2">AGRICULTORES DE CALDERÓN</h3>
+                    <p class="text-xs text-neutral-300">Scouting especializado y reportes de zona.</p>
+                    <span class="inline-block mt-4 bg-yellow-500 text-black font-bold text-xs px-4 py-2 rounded-lg">Ingresar a Agricultores</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA 1: PANEL DE EQUIPOS Y REGISTRO DE JUGADORES (Oculto al inicio) -->
+        <section id="seccionEquipos" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 hidden no-print">
+            <h2 id="tituloSeccionEquipos" class="text-xl font-bold text-white mb-4 border-l-4 border-orange-500 pl-3">Equipos Rival (Liga Activa)</h2>
             
             <div id="cuadriculaEquipos" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <!-- Tarjetas de equipos -->
@@ -37,7 +72,7 @@
             
             <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-neutral-800">
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Equipo</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Nombre del Equipo Rival</label>
                     <input type="text" id="equipoNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Astros">
                 </div>
                 <div>
@@ -45,17 +80,17 @@
                     <input type="text" id="jugadorNombre" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none" placeholder="Ej. Carlos Correa" required>
                 </div>
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Rol Principal</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Rol en el Terreno</label>
                     <select id="jugadorRol" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none">
                         <option value="Bateador">Bateador / Jugador de Campo</option>
-                        <option value="Pitcher">Pitcher Abridor / Relevo</option>
+                        <option value="Pitcher">Pitcher / Lanzador</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-neutral-400 mb-1">Perfil (Zurdo / Derecho / Ambidiestro)</label>
+                    <label class="block text-xs text-neutral-400 mb-1">Perfil (Zurdo / Derecho)</label>
                     <select id="jugadorPerfil" class="w-full bg-black border border-neutral-700 rounded p-2 text-white text-sm focus:border-orange-500 focus:outline-none">
-                        <option value="Batea/Lanza Derecho (D)">Derecho (D)</option>
-                        <option value="Batea/Lanza Zurdo (Z)">Zurdo (Z)</option>
+                        <option value="Derecho (D)">Derecho (D)</option>
+                        <option value="Zurdo (Z)">Zurdo (Z)</option>
                         <option value="Ambidiestro (A)">Ambidiestro (A)</option>
                     </select>
                 </div>
@@ -67,413 +102,385 @@
             </form>
         </section>
 
-        <!-- Vista 2: Roster del Equipo y Reporte General -->
+        <!-- VISTA 2: ROSTER DEL EQUIPO SELECCIONADO -->
         <section id="seccionRoster" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl mb-8 hidden">
             <div class="flex justify-between items-center mb-6 no-print">
-                <h2 id="tituloRosterEquipo" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Plantilla del Equipo</h2>
+                <h2 id="tituloRosterEquipo" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Plantilla</h2>
                 <div class="space-x-2">
-                    <button onclick="verReporteGeneral()" class="bg-orange-600 hover:bg-orange-500 text-black font-bold px-3 py-1 rounded text-xs">📊 Ver Reporte Maestro del Equipo</button>
+                    <button onclick="verReporteGeneral()" class="bg-orange-600 hover:bg-orange-500 text-black font-bold px-3 py-1 rounded text-xs">📊 Reporte Maestro</button>
                     <button onclick="cerrarRoster()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Volver a Equipos</button>
                 </div>
             </div>
             <div id="cuadriculaJugadoresEquipo" class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
-                <!-- Tarjetas del Roster -->
+                <!-- Tarjetas de jugadores -->
             </div>
         </section>
 
-        <!-- Vista 3: Ficha Individual con Gráfica de Campo de Béisbol y Módulo de Pitcher -->
+        <!-- VISTA 3: FICHA TÁCTICA INDIVIDUAL CON BOTONERA RÁPIDA -->
         <section id="seccionFichaIndividual" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl hidden">
             <div class="flex justify-between items-center mb-4 no-print">
-                <h2 id="tituloFichaJugador" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Ficha Táctica Individual</h2>
+                <h2 id="tituloFichaJugador" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Ficha Individual</h2>
                 <div class="space-x-2">
                     <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir Ficha</button>
                     <button onclick="cerrarFicha()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Cerrar Ficha</button>
                 </div>
             </div>
 
-            <!-- Formulario dinámico según sea Bateador o Pitcher -->
-            <div id="contenedorFormularioTurno" class="no-print">
-                <!-- Se inyecta formulario específico para bateador o pitcher -->
+            <!-- Tablero de Botones Tácticos Interactivos (Sin listas aburridas) -->
+            <div id="contenedorBotoneraTurno" class="no-print bg-black p-4 rounded-xl border border-neutral-800 mb-6">
+                <!-- Se inyecta la botonera según sea bateador o pitcher -->
             </div>
 
-            <!-- Apartado visual principal -->
+            <!-- Apartado visual de la Gráfica del Estadio y Reporte -->
             <div id="reporteJugadorDetalle" class="space-y-4"></div>
         </section>
 
-        <!-- Vista 4: Reporte Maestro General de Todo el Equipo -->
+        <!-- VISTA 4: REPORTE MAESTRO GENERAL -->
         <section id="seccionReporteGeneral" class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl hidden">
             <div class="flex justify-between items-center mb-6 no-print">
-                <h2 id="tituloReporteGeneral" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Reporte Maestro del Equipo</h2>
+                <h2 id="tituloReporteGeneral" class="text-xl font-bold text-orange-400 border-l-4 border-orange-500 pl-3">Reporte Maestro</h2>
                 <div class="space-x-2">
-                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir Todo el Equipo</button>
-                    <button onclick="cerrarReporteGeneral()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Regresar al Roster</button>
+                    <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-black font-bold px-3 py-1 rounded text-xs">🖨️ Imprimir Todo</button>
+                    <button onclick="cerrarReporteGeneral()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1 rounded text-xs">Regresar</button>
                 </div>
             </div>
-            <div id="contenedorReporteGeneral" class="space-y-6">
-                <!-- Reportes consolidados -->
-            </div>
+            <div id="contenedorReporteGeneral" class="space-y-6"></div>
         </section>
 
     </main>
 
     <footer class="bg-neutral-900 border-t border-neutral-800 py-4 text-center text-xs text-neutral-500 no-print">
-        &copy; 2026 Alijadores Scouting &bull; Todos los derechos reservados.
+        &copy; 2026 LG BeisVisual &bull; Sistema Profesional de Scouting
     </footer>
 
-    <!-- Lógica de la aplicación -->
+    <!-- LOGICA DE LA APLICACION -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let jugadores = JSON.parse(localStorage.getItem('alijadores_jugadores')) || [];
-            let turnos = JSON.parse(localStorage.getItem('alijadores_turnos')) || [];
+        let ligaActual = null;
+        let jugadores = JSON.parse(localStorage.getItem('lg_beisvisual_jugadores')) || [];
+        let turnos = JSON.parse(localStorage.getItem('lg_beisvisual_turnos')) || [];
+        let equipoSeleccionado = null;
+        let jugadorSeleccionadoId = null;
 
-            let equipoSeleccionado = null;
-            let jugadorSeleccionadoId = null;
+        function guardarDatos() {
+            localStorage.setItem('lg_beisvisual_jugadores', JSON.stringify(jugadores));
+            localStorage.setItem('lg_beisvisual_turnos', JSON.stringify(turnos));
+        }
 
-            function guardarDatos() {
-                localStorage.setItem('alijadores_jugadores', JSON.stringify(jugadores));
-                localStorage.setItem('alijadores_turnos', JSON.stringify(turnos));
+        function cargarLogoPersonalizado(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const lector = new FileReader();
+                lector.onload = function(e) {
+                    document.getElementById('logoEmpresa').src = e.target.result;
+                    localStorage.setItem('lg_beisvisual_logo', e.target.result);
+                }
+                lector.readAsDataURL(archivo);
             }
+        }
 
-            const registroForm = document.getElementById('registroForm');
-            if (registroForm) {
-                registroForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const equipoInput = document.getElementById('equipoNombre').value.trim();
-                    const nombre = document.getElementById('jugadorNombre').value.trim();
-                    const rol = document.getElementById('jugadorRol').value;
-                    const perfil = document.getElementById('jugadorPerfil').value;
-
-                    let equipoFinal = equipoInput !== '' ? equipoInput : equipoSeleccionado;
-
-                    if (!equipoFinal) {
-                        alert('Por favor indica el nombre del equipo.');
-                        return;
-                    }
-
-                    jugadores.push({
-                        id: Date.now(),
-                        equipo: equipoFinal.toUpperCase(),
-                        nombre,
-                        rol,
-                        perfil
-                    });
-
-                    guardarDatos();
-                    document.getElementById('jugadorNombre').value = '';
-                    document.getElementById('equipoNombre').value = '';
-                    
-                    if (equipoSeleccionado) abrirRoster(equipoSeleccionado);
-                    else renderizarEquipos();
-                });
+        window.onload = function() {
+            const logoGuardado = localStorage.getItem('lg_beisvisual_logo');
+            if (logoGuardado) {
+                document.getElementById('logoEmpresa').src = logoGuardado;
             }
+        }
 
-            window.renderizarEquipos = function() {
-                equipoSeleccionado = null;
-                jugadorSeleccionadoId = null;
+        window.entrarLiga = function(liga) {
+            ligaActual = liga;
+            document.getElementById('vistaPortada').classList.add('hidden');
+            document.getElementById('seccionEquipos').classList.remove('hidden');
 
-                document.getElementById('seccionEquipos').classList.remove('hidden');
-                document.getElementById('seccionRoster').classList.add('hidden');
-                document.getElementById('seccionFichaIndividual').classList.add('hidden');
-                document.getElementById('seccionReporteGeneral').classList.add('hidden');
+            const cuerpo = document.getElementById('cuerpoPrincipal');
+            const titulo = document.getElementById('tituloSeccionEquipos');
+            const subtitulo = document.getElementById('subtituloLiga');
 
-                const contenedor = document.getElementById('cuadriculaEquipos');
-                if (!contenedor) return;
+            if (liga === 'AGRICULTORES') {
+                cuerpo.className = "bg-neutral-950 text-white min-h-screen flex flex-col justify-between";
+                titulo.className = "text-xl font-bold text-yellow-400 mb-4 border-l-4 border-yellow-500 pl-3";
+                subtitulo.innerText = "Proyecto: Agricultores de Calderón";
+                subtitulo.className = "text-yellow-400 font-medium text-xs";
+            } else {
+                cuerpo.className = "bg-black text-white min-h-screen flex flex-col justify-between";
+                titulo.className = "text-xl font-bold text-orange-400 mb-4 border-l-4 border-orange-500 pl-3";
+                subtitulo.innerText = "Proyecto: Liga APC";
+                subtitulo.className = "text-orange-500 font-medium text-xs";
+            }
+            renderizarEquipos();
+        }
 
-                contenedor.innerHTML = '';
-                const equiposUnicos = [...new Set(jugadores.map(j => j.equipo))];
+        window.irAPortada = function() {
+            ligaActual = null;
+            document.getElementById('vistaPortada').classList.remove('hidden');
+            document.getElementById('seccionEquipos').classList.add('hidden');
+            document.getElementById('seccionRoster').classList.add('hidden');
+            document.getElementById('seccionFichaIndividual').classList.add('hidden');
+            document.getElementById('seccionReporteGeneral').classList.add('hidden');
+        }
 
-                if (equiposUnicos.length === 0) {
-                    contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos registrados. Escribe uno arriba para empezar.</div>';
+        const registroForm = document.getElementById('registroForm');
+        if (registroForm) {
+            registroForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const equipoInput = document.getElementById('equipoNombre').value.trim();
+                const nombre = document.getElementById('jugadorNombre').value.trim();
+                const rol = document.getElementById('jugadorRol').value;
+                const perfil = document.getElementById('jugadorPerfil').value;
+
+                let equipoFinal = equipoInput !== '' ? equipoInput : equipoSeleccionado;
+                if (!equipoFinal) {
+                    alert('Indica el nombre del equipo rival.');
                     return;
                 }
 
-                equiposUnicos.forEach(eq => {
-                    const totalJugadores = jugadores.filter(j => j.equipo === eq).length;
-                    contenedor.innerHTML += `
-                        <div onclick="abrirRoster('${eq}')" class="bg-black border border-neutral-800 hover:border-orange-500 p-4 rounded-xl cursor-pointer transition shadow-md text-center group">
-                            <h3 class="font-bold text-white text-lg group-hover:text-orange-400">${eq}</h3>
-                            <p class="text-xs text-neutral-400 mt-1">${totalJugadores} registrados</p>
-                        </div>
-                    `;
+                jugadores.push({
+                    id: Date.now(),
+                    liga: ligaActual,
+                    equipo: equipoFinal.toUpperCase(),
+                    nombre,
+                    rol,
+                    perfil
                 });
-            };
 
-            window.abrirRoster = function(nombreEquipo) {
-                equipoSeleccionado = nombreEquipo;
-                document.getElementById('seccionEquipos').classList.add('hidden');
-                document.getElementById('seccionRoster').classList.remove('hidden');
-                document.getElementById('seccionFichaIndividual').classList.add('hidden');
-                document.getElementById('seccionReporteGeneral').classList.add('hidden');
-
-                document.getElementById('tituloRosterEquipo').innerText = `Roster del Equipo: ${nombreEquipo}`;
-
-                const contenedor = document.getElementById('cuadriculaJugadoresEquipo');
-                contenedor.innerHTML = '';
-                const jugadoresEquipo = jugadores.filter(j => j.equipo === nombreEquipo);
-
-                if (jugadoresEquipo.length === 0) {
-                    contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm">No hay jugadores registrados en este equipo.</div>';
-                    return;
-                }
-
-                jugadoresEquipo.forEach(j => {
-                    let rolBadge = j.rol === 'Pitcher' ? '<span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded font-bold">Pitcher</span>' : '<span class="bg-orange-500/20 text-orange-400 text-xs px-2 py-0.5 rounded font-bold">Bateador</span>';
-                    const turnosJugador = turnos.filter(t => t.jugadorId == j.id).length;
-                    
-                    contenedor.innerHTML += `
-                        <div onclick="abrirFichaJugador(${j.id})" class="bg-black border border-neutral-800 hover:border-orange-500 p-4 rounded-xl cursor-pointer transition shadow-md">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="font-bold text-white text-base">${j.nombre}</span>
-                                ${rolBadge}
-                            </div>
-                            <p class="text-xs text-neutral-400">Perfil: ${j.perfil} | Registros: ${turnosJugador}</p>
-                        </div>
-                    `;
-                });
-            };
-
-            window.cerrarRoster = function() { renderizarEquipos(); };
-
-            window.abrirFichaJugador = function(idJugador) {
-                jugadorSeleccionadoId = idJugador;
-                const jugador = jugadores.find(j => j.id == idJugador);
-                if (!jugador) return;
-
-                document.getElementById('seccionEquipos').classList.add('hidden');
-                document.getElementById('seccionRoster').classList.add('hidden');
-                document.getElementById('seccionFichaIndividual').classList.remove('hidden');
-                document.getElementById('seccionReporteGeneral').classList.add('hidden');
-
-                document.getElementById('tituloFichaJugador').innerText = `Ficha Táctica: ${jugador.nombre} [${jugador.rol}]`;
-
-                // Renderizar Formulario Específico según sea Bateador o Pitcher
-                const formContenedor = document.getElementById('contenedorFormularioTurno');
-                if (jugador.rol === 'Pitcher') {
-                    formContenedor.innerHTML = `
-                        <form id="scoutingPitcherForm" class="bg-black p-4 rounded-lg border border-neutral-800 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="hidden" id="scoutJugadorId" value="${jugador.id}">
-                            <div>
-                                <label class="block text-xs text-neutral-400 mb-1">Comportamiento del Pitcher</label>
-                                <select id="pitcherAccion" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
-                                    <option value="Ponche Logrado">Ponche Logrado (Dominante)</option>
-                                    <option value="Base por Bolas (Control Chueco)">Base por Bolas (Descontrolado)</option>
-                                    <option value="Hit Permitido">Hit Permitido (Castigado)</option>
-                                    <option value="Fly / Out Normal">Fly / Out Normal (Dominado)</option>
-                                    <option value="Robo Permitido en su Turno">Robo Permitido (lento para soltar)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-neutral-400 mb-1">Pitcheo Principal que Usa</label>
-                                <select id="pitcherPitcheo" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
-                                    <option value="Recta Fuerte">Recta Fuerte</option>
-                                    <option value="Slider Quebrado">Slider Quebrado</option>
-                                    <option value="Curva Lenta">Curva Lenta</option>
-                                    <option value="Cambio de Velocidad">Cambio de Velocidad</option>
-                                </select>
-                            </div>
-                            <div class="flex items-end">
-                                <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-black font-bold py-2 px-4 rounded text-sm">Registrar Dato del Pitcher</button>
-                            </div>
-                        </form>
-                    `;
-                } else {
-                    formContenedor.innerHTML = `
-                        <form id="scoutingBateadorForm" class="bg-black p-4 rounded-lg border border-neutral-800 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="hidden" id="scoutJugadorId" value="${jugador.id}">
-                            <div>
-                                <label class="block text-xs text-neutral-400 mb-1">Zona o Destino del Batazo</label>
-                                <select id="bateadorResultado" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
-                                    <option value="Jardín Izquierdo">Batazo hacia Jardín Izquierdo</option>
-                                    <option value="Jardín Central">Batazo hacia Jardín Central</option>
-                                    <option value="Jardín Derecho">Batazo hacia Jardín Derecho</option>
-                                    <option value="Toque de Sorpresa (Bunt)">⚠️ Toque de Sorpresa (Bunt)</option>
-                                    <option value="Robo de Base Exitoso">⚡ Robo de Base Exitoso</option>
-                                    <option value="Ponche / Out">Ponche o Out</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-neutral-400 mb-1">Pitcheo que Conectó</label>
-                                <select id="bateadorPitcheo" class="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white text-sm">
-                                    <option value="Recta">Recta</option>
-                                    <option value="Slider">Slider</option>
-                                    <option value="Curva">Curva</option>
-                                    <option value="Cambio">Cambio</option>
-                                </select>
-                            </div>
-                            <div class="flex items-end">
-                                <button type="submit" class="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-2 px-4 rounded text-sm">Registrar Turno</button>
-                            </div>
-                        </form>
-                    `;
-                }
-
-                // Eventos de envío de formularios
-                setTimeout(() => {
-                    const formB = document.getElementById('scoutingBateadorForm');
-                    if (formB) {
-                        formB.addEventListener('submit', (ev) => {
-                            ev.preventDefault();
-                            registrarTurnoGenerico(idJugador, document.getElementById('bateadorResultado').value, document.getElementById('bateadorPitcheo').value);
-                        });
-                    }
-                    const formP = document.getElementById('scoutingPitcherForm');
-                    if (formP) {
-                        formP.addEventListener('submit', (ev) => {
-                            ev.preventDefault();
-                            registrarTurnoGenerico(idJugador, document.getElementById('pitcherAccion').value, document.getElementById('pitcherPitcheo').value);
-                        });
-                    }
-                }, 100);
-
-                document.getElementById('reporteJugadorDetalle').innerHTML = generarHTMLReporteJugador(idJugador);
-            };
-
-            function registrarTurnoGenerico(idJugador, resultado, pitcheo) {
-                turnos.push({ id: Date.now(), jugadorId: idJugador, resultado, pitcheo });
                 guardarDatos();
-                abrirFichaJugador(idJugador);
-            }
-
-            window.cerrarFicha = function() {
+                document.getElementById('jugadorNombre').value = '';
+                document.getElementById('equipoNombre').value = '';
+                
                 if (equipoSeleccionado) abrirRoster(equipoSeleccionado);
                 else renderizarEquipos();
-            };
+            });
+        }
 
-            window.verReporteGeneral = function() {
-                document.getElementById('seccionEquipos').classList.add('hidden');
-                document.getElementById('seccionRoster').classList.add('hidden');
-                document.getElementById('seccionFichaIndividual').classList.add('hidden');
-                document.getElementById('seccionReporteGeneral').classList.remove('hidden');
+        window.renderizarEquipos = function() {
+            equipoSeleccionado = null;
+            jugadorSeleccionadoId = null;
 
-                document.getElementById('tituloReporteGeneral').innerText = `Reporte Maestro del Equipo: ${equipoSeleccionado}`;
-                const contenedor = document.getElementById('contenedorReporteGeneral');
-                contenedor.innerHTML = '';
+            document.getElementById('seccionEquipos').classList.remove('hidden');
+            document.getElementById('seccionRoster').classList.add('hidden');
+            document.getElementById('seccionFichaIndividual').classList.add('hidden');
+            document.getElementById('seccionReporteGeneral').classList.add('hidden');
 
-                const jugadoresEquipo = jugadores.filter(j => j.equipo === equipoSeleccionado);
-                if (jugadoresEquipo.length === 0) {
-                    contenedor.innerHTML = '<p class="text-neutral-500 text-sm">No hay jugadores registrados.</p>';
-                    return;
-                }
+            const contenedor = document.getElementById('cuadriculaEquipos');
+            if (!contenedor) return;
 
-                jugadoresEquipo.forEach(j => {
-                    contenedor.innerHTML += `<div class="print-card bg-black border border-neutral-800 p-5 rounded-xl mb-6">${generarHTMLReporteJugador(j.id, true)}</div>`;
-                });
-            };
+            contenedor.innerHTML = '';
+            const equiposLiga = jugadores.filter(j => j.liga === ligaActual);
+            const equiposUnicos = [...new Set(equiposLiga.map(j => j.equipo))];
 
-            window.cerrarReporteGeneral = function() { abrirRoster(equipoSeleccionado); };
+            if (equiposUnicos.length === 0) {
+                contenedor.innerHTML = '<div class="col-span-full text-neutral-500 text-sm text-center py-4">No hay equipos en esta liga. Escribe uno abajo para empezar.</div>';
+                return;
+            }
 
-            function generarHTMLReporteJugador(idJugador, esGeneral = false) {
-                const jugador = jugadores.find(j => j.id == idJugador);
-                const turnosJugador = turnos.filter(t => t.jugadorId == idJugador);
-                const total = turnosJugador.length;
+            equiposUnicos.forEach(eq => {
+                const total = equiposLiga.filter(j => j.equipo === eq).length;
+                let colorBorde = ligaActual === 'AGRICULTORES' ? 'hover:border-yellow-400' : 'hover:border-orange-500';
+                contenedor.innerHTML += `
+                    <div onclick="abrirRoster('${eq}')" class="bg-black border border-neutral-800 ${colorBorde} p-4 rounded-xl cursor-pointer transition shadow-md text-center group">
+                        <h3 class="font-bold text-white text-lg group-hover:text-orange-300">${eq}</h3>
+                        <p class="text-xs text-neutral-400 mt-1">${total} jugadores</p>
+                    </div>
+                `;
+            });
+        };
 
-                let nombreMostrado = jugador ? `${jugador.nombre} <span class="text-orange-400">[${jugador.rol} - ${jugador.perfil}]</span>` : "Jugador";
+        window.abrirRoster = function(nombreEquipo) {
+            equipoSeleccionado = nombreEquipo;
+            document.getElementById('seccionEquipos').classList.add('hidden');
+            document.getElementById('seccionRoster').classList.remove('hidden');
+            document.getElementById('seccionFichaIndividual').classList.add('hidden');
+            document.getElementById('seccionReporteGeneral').classList.add('hidden');
 
-                if (total === 0) {
-                    return `
-                        <div class="p-4 bg-neutral-900 border border-neutral-800 rounded-xl">
-                            <h4 class="font-bold text-white text-base mb-1">${nombreMostrado}</h4>
-                            <p class="text-xs text-neutral-400">Sin registros analíticos todavía.</p>
+            document.getElementById('tituloRosterEquipo').innerText = `Roster: ${nombreEquipo}`;
+
+            const contenedor = document.getElementById('cuadriculaJugadoresEquipo');
+            contenedor.innerHTML = '';
+            const rosterEquipo = jugadores.filter(j => j.liga === ligaActual && j.equipo === nombreEquipo);
+
+            rosterEquipo.forEach(j => {
+                let badge = j.rol === 'Pitcher' ? '<span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded font-bold">Pitcher</span>' : '<span class="bg-orange-500/20 text-orange-400 text-xs px-2 py-0.5 rounded font-bold">Bateador</span>';
+                const totalT = turnos.filter(t => t.jugadorId == j.id).length;
+                
+                contenedor.innerHTML += `
+                    <div onclick="abrirFichaJugador(${j.id})" class="bg-black border border-neutral-800 hover:border-orange-500 p-4 rounded-xl cursor-pointer transition shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-bold text-white text-base">${j.nombre}</span>
+                            ${badge}
                         </div>
-                    `;
-                }
+                        <p class="text-xs text-neutral-400">Perfil: ${j.perfil} | Registros: ${totalT}</p>
+                    </div>
+                `;
+            });
+        };
 
-                // SI ES PITCHER (Módulo Especial de Estudio de Lanzador)
-                if (jugador.rol === 'Pitcher') {
-                    let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche')).length;
-                    let bases = turnosJugador.filter(t => t.resultado.includes('Base por Bolas')).length;
-                    let hitsP = turnosJugador.filter(t => t.resultado.includes('Hit Permitido')).length;
-                    
-                    let pPonche = Math.round((ponches / total) * 100);
-                    let pBase = Math.round((bases / total) * 100);
+        window.cerrarRoster = function() { renderizarEquipos(); };
 
-                    let analisisPitcher = "Pitcher con control regular, trabajar conteo temprano.";
-                    if (bases > ponches) analisisPitcher = "⚠️ **PITCHER DESCONTROLADO:** Tiende a regalar bases por bolas. No le tires a primer pichito malo, déjalo que se meta en cuenta de bolas.";
-                    else if (ponches >= bases) analisisPitcher = "⚠️ **PITCHER DOMINANTE:** Ataca temprano la zona con strikes. Hacer contacto rápido o buscar jugadas de hit and run.";
+        window.abrirFichaJugador = function(idJugador) {
+            jugadorSeleccionadoId = idJugador;
+            const jugador = jugadores.find(j => j.id == idJugador);
+            if (!jugador) return;
 
-                    return `
-                        <div class="print-card bg-black border border-red-500/30 p-5 rounded-xl">
-                            <div class="flex justify-between items-center mb-3 border-b border-neutral-800 pb-2">
-                                <h4 class="font-bold text-white text-base">${nombreMostrado}</h4>
-                                <span class="text-xs text-neutral-400">Batallas analizadas: ${total}</span>
-                            </div>
-                            <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg mb-3">
-                                <h5 class="text-xs font-bold text-red-400 uppercase mb-1">Análisis Táctico del Lanzador</h5>
-                                <p class="text-sm text-white mb-2">${analisisPitcher}</p>
-                                <div class="text-xs text-neutral-300">Efectividad de control: Ponches (${pPonches}%) vs Bases por Bolas (${pBase}%)</div>
-                            </div>
-                        </div>
-                    `;
-                }
+            document.getElementById('seccionEquipos').classList.add('hidden');
+            document.getElementById('seccionRoster').classList.add('hidden');
+            document.getElementById('seccionFichaIndividual').classList.remove('hidden');
+            document.getElementById('seccionReporteGeneral').classList.add('hidden');
 
-                // SI ES BATEADOR (Gráfica Real del Campo de Béisbol)
-                let izq = turnosJugador.filter(t => t.resultado.includes('Izquierdo')).length;
-                let central = turnosJugador.filter(t => t.resultado.includes('Central')).length;
-                let der = turnosJugador.filter(t => t.resultado.includes('Derecho')).length;
-                let toques = turnosJugador.filter(t => t.resultado.includes('Toque')).length;
-                let robos = turnosJugador.filter(t => t.resultado.includes('Robo')).length;
+            document.getElementById('tituloFichaJugador').innerText = `Ficha: ${jugador.nombre} [${jugador.rol}]`;
 
-                let pIzq = Math.round((izq / total) * 100) || 0;
-                let pCent = Math.round((central / total) * 100) || 0;
-                let pDer = Math.round((der / total) * 100) || 0;
-
-                // Colores tipo semáforo en base a tendencia de bateo
-                let colorIzq = pIzq > 40 ? 'bg-red-600 text-white font-black' : (pIzq > 20 ? 'bg-yellow-500 text-black font-bold' : 'bg-green-700 text-white');
-                let colorCent = pCent > 40 ? 'bg-red-600 text-white font-black' : (pCent > 20 ? 'bg-yellow-500 text-black font-bold' : 'bg-green-700 text-white');
-                let colorDer = pDer > 40 ? 'bg-red-600 text-white font-black' : (pDer > 20 ? 'bg-yellow-500 text-black font-bold' : 'bg-green-700 text-white');
-
-                let consejoDefensivo = "Acomodo defensivo estándar en el cuadro y outfield.";
-                if (pDer > pIzq && pDer > pCent) consejoDefensivo = "⚠️ Acomodo defensivo: Jardineros cargados fuertemente al Right Field (Derecho).";
-                else if (pIzq > pDer && pIzq > pCent) consejoDefensivo = "⚠️ Acomodo defensivo: Jardineros cargados fuertemente al Left Field (Izquierdo).";
-                else if (pCent >= pIzq && pCent >= pDer) consejoDefensivo = "⚠️ Acomodo defensivo: Jardín central profundo, segunda y short colaborando al centro.";
-
-                let alertaToque = toques > 0 ? `<div class="text-yellow-400 font-bold text-xs mt-1">⚠️ ¡ALERTA DE BUNT! Toques sorpresa detectados (${toques}). 3ra y 1ra base atentos.</div>` : '';
-                let alertaRobo = robos > 0 ? `<div class="text-orange-400 font-bold text-xs mt-1">⚡ ¡PELIGRO DE ROBO! Amenazas registradas (${robos}). Cátcher atento a reviradas.</div>` : '';
-
-                return `
-                    <div class="print-card bg-black border border-orange-500/30 p-5 rounded-xl">
-                        <div class="flex justify-between items-center mb-3 border-b border-neutral-800 pb-2">
-                            <h4 class="font-bold text-white text-base">${nombreMostrado}</h4>
-                            <span class="text-xs text-neutral-400">Turnos analizados: ${total}</span>
-                        </div>
-
-                        <!-- GRÁFICA REAL DE UN CAMPO DE BÉISBOL (DIAMANTE Y ZONAS DE JARDÍN) -->
-                        <div class="mb-4 bg-neutral-900 border border-neutral-800 p-4 rounded-xl text-center">
-                            <p class="text-xs text-neutral-400 uppercase font-semibold mb-3">🏟️ Mapa de Calor / Gráfica del Campo de Béisbol</p>
-                            
-                            <!-- Zonas del Campo (Jardines) -->
-                            <div class="grid grid-cols-3 gap-2 mb-3">
-                                <div class="p-4 rounded-lg border border-neutral-700 flex flex-col justify-center items-center ${colorIzq}">
-                                    <span class="text-xs uppercase">LF (Izquierdo)</span>
-                                    <span class="text-2xl">${pIzq}%</span>
-                                </div>
-                                <div class="p-4 rounded-lg border border-neutral-700 flex flex-col justify-center items-center ${colorCent}">
-                                    <span class="text-xs uppercase">CF (Central)</span>
-                                    <span class="text-2xl">${pCent}%</span>
-                                </div>
-                                <div class="p-4 rounded-lg border border-neutral-700 flex flex-col justify-center items-center ${colorDer}">
-                                    <span class="text-xs uppercase">RF (Derecho)</span>
-                                    <span class="text-2xl">${pDer}%</span>
-                                </div>
-                            </div>
-                            <div class="text-[10px] text-neutral-400">🟢 Zona Baja Frecuencia | 🟡 Zona Media | 🔴 Zona Roja (Fuerte Tendencia de Conexión)</div>
-                        </div>
-
-                        <!-- Reporte Defensivo Único -->
-                        <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-lg mb-3">
-                            <h5 class="text-xs font-bold text-orange-400 uppercase mb-1">Acomodo Defensivo Sugerido</h5>
-                            <p class="text-sm text-white">${consejoDefensivo}</p>
-                            ${alertaToque}
-                            ${alertaRobo}
-                        </div>
-
-                        ${!esGeneral ? `<div class="text-right"><button onclick="window.print()" class="no-print bg-neutral-800 hover:bg-neutral-700 text-white text-xs px-3 py-1 rounded">🖨️ Imprimir Ficha</button></div>` : ''}
+            const botonera = document.getElementById('contenedorBotoneraTurno');
+            
+            if (jugador.rol === 'Pitcher') {
+                botonera.innerHTML = `
+                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚡ REGISTRO RÁPIDO PARA PITCHER (Haz clic en la acción):</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-900/60 hover:bg-red-700 text-red-200 p-2 rounded text-xs font-bold transition">🔴 Ponche Logrado</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-yellow-900/60 hover:bg-yellow-700 text-yellow-200 p-2 rounded text-xs font-bold transition">🟡 Base por Bolas</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-900/60 hover:bg-orange-700 text-orange-200 p-2 rounded text-xs font-bold transition">💥 Hit Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-900/60 hover:bg-blue-700 text-blue-200 p-2 rounded text-xs font-bold transition">⚡ Robo Permitido</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="pitcherTipoPitcheo" class="bg-neutral-900 border border-neutral-700 rounded p-1 text-xs text-white">
+                            <option value="Recta Fuerte">Recta Fuerte</option>
+                            <option value="Slider">Slider</option>
+                            <option value="Curva">Curva</option>
+                            <option value="Cambio">Cambio</option>
+                        </select>
+                    </div>
+                `;
+            } else {
+                botonera.innerHTML = `
+                    <p class="text-xs text-neutral-400 mb-2 font-semibold">⚾ TABLERO TÁCTICO DE BATEO (Haz clic en la zona o jugada):</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-neutral-800 hover:bg-orange-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">👈 Jardín Izquierdo</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-neutral-800 hover:bg-orange-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">⬆️ Jardín Central</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Derecho')" class="bg-neutral-800 hover:bg-orange-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">👉 Jardín Derecho</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa')" class="bg-yellow-800/80 hover:bg-yellow-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">⚠️ Toque de Bunt</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Robo de Base Exitoso')" class="bg-blue-800/80 hover:bg-blue-600 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">⚡ Robo de Base</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Ponche / Out')" class="bg-red-900/60 hover:bg-red-700 text-white p-2.5 rounded text-xs font-bold transition border border-neutral-700">❌ Ponche / Out</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="bateadorPitcheo" class="bg-neutral-900 border border-neutral-700 rounded p-1 text-xs text-white">
+                            <option value="Recta">Pitcheo: Recta</option>
+                            <option value="Slider">Pitcheo: Slider</option>
+                            <option value="Curva">Pitcheo: Curva</option>
+                            <option value="Cambio">Pitcheo: Cambio</option>
+                        </select>
                     </div>
                 `;
             }
 
-            renderizarEquipos();
-        });
+            document.getElementById('reporteJugadorDetalle').innerHTML = generarHTMLReporteJugador(idJugador);
+        };
+
+        window.registrarBatazo = function(idJugador, resultado) {
+            const pitcheo = document.getElementById('bateadorPitcheo').value;
+            turnos.push({ id: Date.now(), jugadorId: idJugador, resultado, pitcheo });
+            guardarDatos();
+            abrirFichaJugador(idJugador);
+        }
+
+        window.registrarAccionPitcher = function(idJugador, resultado) {
+            const pitcheo = document.getElementById('pitcherTipoPitcheo').value;
+            turnos.push({ id: Date.now(), jugadorId: idJugador, resultado, pitcheo });
+            guardarDatos();
+            abrirFichaJugador(idJugador);
+        }
+
+        window.cerrarFicha = function() {
+            if (equipoSeleccionado) abrirRoster(equipoSeleccionado);
+            else renderizarEquipos();
+        };
+
+        window.verReporteGeneral = function() {
+            document.getElementById('seccionEquipos').classList.add('hidden');
+            document.getElementById('seccionRoster').classList.add('hidden');
+            document.getElementById('seccionFichaIndividual').classList.add('hidden');
+            document.getElementById('seccionReporteGeneral').classList.remove('hidden');
+
+            document.getElementById('tituloReporteGeneral').innerText = `Reporte Maestro: ${equipoSeleccionado}`;
+            const contenedor = document.getElementById('contenedorReporteGeneral');
+            contenedor.innerHTML = '';
+
+            const rosterEquipo = jugadores.filter(j => j.liga === ligaActual && j.equipo === equipoSeleccionado);
+            rosterEquipo.forEach(j => {
+                contenedor.innerHTML += `<div class="print-card bg-black border border-neutral-800 p-5 rounded-xl mb-6">${generarHTMLReporteJugador(j.id, true)}</div>`;
+            });
+        };
+
+        window.cerrarReporteGeneral = function() { abrirRoster(equipoSeleccionado); };
+
+        function generarHTMLReporteJugador(idJugador, esGeneral = false) {
+            const jugador = jugadores.find(j => j.id == idJugador);
+            const turnosJugador = turnos.filter(t => t.jugadorId == idJugador);
+            const total = turnosJugador.length;
+
+            let nombreMostrado = jugador ? `${jugador.nombre} <span class="text-orange-400">[${jugador.rol} - ${jugador.perfil}]</span>` : "Jugador";
+
+            if (total === 0) {
+                return `
+                    <div class="p-4 bg-neutral-900 border border-neutral-800 rounded-xl text-center text-neutral-400">
+                        <h4 class="font-bold text-white text-base mb-1">${nombreMostrado}</h4>
+                        <p class="text-xs">Usa los botones superiores para registrar las primeras jugadas.</p>
+                    </div>
+                `;
+            }
+
+            if (jugador.rol === 'Pitcher') {
+                let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche')).length;
+                let bases = turnosJugador.filter(t => t.resultado.includes('Base')).length;
+                let analisis = bases > ponches ? "⚠️ **Pitcher descontrolado:** Tiende a regalar bases por bolas. No le hagas swing a bolas malas." : "⚠️ **Pitcher dominante:** Ataca temprano la zona de strike.";
+                
+                return `
+                    <div class="print-card bg-black border border-red-500/30 p-5 rounded-xl">
+                        <div class="flex justify-between items-center mb-3 border-b border-neutral-800 pb-2">
+                            <h4 class="font-bold text-white text-base">${nombreMostrado}</h4>
+                            <span class="text-xs text-neutral-400">Registros: ${total}</span>
+                        </div>
+                        <p class="text-sm text-white mb-2">${analisis}</p>
+                    </div>
+                `;
+            }
+
+            let izq = turnosJugador.filter(t => t.resultado.includes('Izquierdo')).length;
+            let central = turnosJugador.filter(t => t.resultado.includes('Central')).length;
+            let der = turnosJugador.filter(t => t.resultado.includes('Derecho')).length;
+
+            let pIzq = Math.round((izq / total) * 100) || 0;
+            let pCent = Math.round((central / total) * 100) || 0;
+            let pDer = Math.round((der / total) * 100) || 0;
+
+            let colorIzq = pIzq > 40 ? 'bg-red-600 text-white' : (pIzq > 20 ? 'bg-yellow-500 text-black' : 'bg-green-700 text-white');
+            let colorCent = pCent > 40 ? 'bg-red-600 text-white' : (pCent > 20 ? 'bg-yellow-500 text-black' : 'bg-green-700 text-white');
+            let colorDer = pDer > 40 ? 'bg-red-600 text-white' : (pDer > 20 ? 'bg-yellow-500 text-black' : 'bg-green-700 text-white');
+
+            return `
+                <div class="print-card bg-black border border-orange-500/30 p-5 rounded-xl">
+                    <div class="flex justify-between items-center mb-3 border-b border-neutral-800 pb-2">
+                        <h4 class="font-bold text-white text-base">${nombreMostrado}</h4>
+                        <span class="text-xs text-neutral-400">Turnos: ${total}</span>
+                    </div>
+
+                    <!-- GRÁFICA REAL DE ESTADIO CON SEMÁFORO -->
+                    <div class="mb-4 bg-neutral-900 border border-neutral-800 p-4 rounded-xl text-center">
+                        <p class="text-xs text-neutral-400 uppercase font-semibold mb-3">🏟️ Gráfica de Terreno - Tendencia de Conexión</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="p-4 rounded-lg flex flex-col justify-center items-center ${colorIzq}">
+                                <span class="text-[10px] uppercase font-bold">LF (Izq)</span>
+                                <span class="text-2xl font-black">${pIzq}%</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex flex-col justify-center items-center ${colorCent}">
+                                <span class="text-[10px] uppercase font-bold">CF (Cent)</span>
+                                <span class="text-2xl font-black">${pCent}%</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex flex-col justify-center items-center ${colorDer}">
+                                <span class="text-[10px] uppercase font-bold">RF (Der)</span>
+                                <span class="text-2xl font-black">${pDer}%</span>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-neutral-400 mt-2">🟢 Zona Baja | 🟡 Zona Media | 🔴 Zona Roja (Fuerte Tendencia)</div>
+                    </div>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
