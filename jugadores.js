@@ -1,22 +1,34 @@
+// Lógica para guardar jugadores del sistema de scouting
 document.addEventListener("DOMContentLoaded", () => {
-const form = document.getElementById("registroForm");
-    if (form) {
-        form.addEventListener("submit", (e) => {
+    const registroForm = document.getElementById("registroForm");
+
+    if (registroForm) {
+        registroForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
-            const nuevoRegistro = {
-                equipo: document.getElementById("equipoNombre").value,
-                jugador: document.getElementById("jugadorNombre").value,
-                posicion: document.getElementById("jugadorPosicion").value,
-                perfil: document.getElementById("jugadorPerfil").value
+            // Obtener los valores del formulario
+            const equipo = document.getElementById("equipoNombre").value.trim();
+            const nombre = document.getElementById("jugadorNombre").value.trim();
+            const posicion = document.getElementById("jugadorPosicion").value;
+            const perfil = document.getElementById("jugadorPerfil").value.trim();
+
+            // Crear el objeto del jugador
+            const nuevoJugador = {
+                id: Date.now(),
+                equipo,
+                nombre,
+                posicion,
+                perfil
             };
 
-            let registros = JSON.parse(localStorage.getItem("alijadoresJugadores")) || [];
-            registros.push(nuevoRegistro);
-            localStorage.setItem("alijadoresJugadores", JSON.stringify(registros));
+            // Guardar en localStorage
+            let jugadores = JSON.parse(localStorage.getItem("alijadores_jugadores")) || [];
+            jugadores.push(nuevoJugador);
+            localStorage.setItem("alijadores_jugadores", JSON.stringify(jugadores));
 
-            alert("¡Jugador registrado con éxito en el sistema!");
-            form.reset();
+            // Confirmación y limpieza del formulario
+            alert(`¡Jugador ${nombre} registrado con éxito para el equipo ${equipo}!`);
+            registroForm.reset();
         });
     }
 });
