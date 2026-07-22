@@ -7,12 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
-            body { background: white !important; color: black !important; font-size: 8px !important; }
+            body { background: white !important; color: black !important; font-size: 7.5px !important; }
             .no-print { display: none !important; }
             .print-card { border: none !important; background: white !important; color: black !important; break-inside: avoid; padding: 0px !important; margin-bottom: 0px !important; }
-            .print-compact-table { width: 100% !important; border-collapse: collapse !important; font-size: 7.5px !important; table-layout: fixed !important; }
-            .print-compact-table th, .print-compact-table td { border: 1px solid #333 !important; padding: 1.5px 3px !important; text-align: left !important; line-height: 1 !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-            .print-half-page { height: 48vh !important; max-height: 48vh !important; overflow: hidden !important; page-break-inside: avoid !important; margin-bottom: 10px !important; }
+            .print-compact-table { width: 100% !important; border-collapse: collapse !important; font-size: 7px !important; table-layout: fixed !important; }
+            .print-compact-table th, .print-compact-table td { border: 1px solid #333 !important; padding: 1px 2px !important; text-align: left !important; line-height: 1 !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .print-half-page { height: 48vh !important; max-height: 48vh !important; overflow: hidden !important; page-break-inside: avoid !important; margin-bottom: 5px !important; }
         }
     </style>
 </head>
@@ -164,6 +164,9 @@
         let equipoSeleccionado = null;
         let jugadorSeleccionadoId = null;
         let pestanaReporteActual = 'batNormal';
+        
+        // Estado temporal para los botones seleccionados antes de registrar
+        let pitcheoSeleccionadoActual = 'Recta';
 
         function guardarDatos() {
             localStorage.setItem('lg_beisvisual_jugadores', JSON.stringify(jugadores));
@@ -338,6 +341,18 @@
             }
         }
 
+        window.seleccionarPitcheoBoton = function(tipo) {
+            pitcheoSeleccionadoActual = tipo;
+            const botones = document.querySelectorAll('.btn-pitcheo-selector');
+            botones.forEach(btn => {
+                if (btn.getAttribute('data-tipo') === tipo) {
+                    btn.className = "btn-pitcheo-selector bg-blue-600 text-white border-2 border-blue-700 p-2.5 rounded-xl text-xs font-black transition shadow-md";
+                } else {
+                    btn.className = "btn-pitcheo-selector bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 p-2.5 rounded-xl text-xs font-bold transition shadow-sm";
+                }
+            });
+        }
+
         window.abrirFichaJugador = function(idJugador) {
             jugadorSeleccionadoId = idJugador;
             const jugador = jugadores.find(j => j.id == idJugador);
@@ -351,51 +366,53 @@
             document.getElementById('tituloFichaJugador').innerText = `Ficha: ${jugador.nombre} [${jugador.rol}]`;
             const botonera = document.getElementById('contenedorBotoneraTurno');
             
+            pitcheoSeleccionadoActual = 'Recta'; // Reset por defecto
+
+            const listaTiposPitcheo = [
+                'Recta', 'Slider', 'Curva', 'Cambio', 'Sinker', 'Cutter', 'Splitter', 'Knuckleball', 'Pitcheo no reconocido'
+            ];
+
+            let botonesPitcheoHTML = '';
+            listaTiposPitcheo.forEach(tp => {
+                let claseBtn = tp === 'Recta' 
+                    ? "btn-pitcheo-selector bg-blue-600 text-white border-2 border-blue-700 p-2.5 rounded-xl text-xs font-black transition shadow-md"
+                    : "btn-pitcheo-selector bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 p-2.5 rounded-xl text-xs font-bold transition shadow-sm";
+                botonesPitcheoHTML += `<button type="button" data-tipo="${tp}" onclick="seleccionarPitcheoBoton('${tp}')" class="${claseBtn}">${tp}</button>`;
+            });
+            
             // BOTONERA DE PITCHER EN CUADROS DE BOTONES
             if (jugador.rol === 'Pitcher') {
                 botonera.innerHTML = `
-                    <p class="text-xs text-slate-700 mb-2 font-black">⚡ TABLERO TÁCTICO DE PITCHEO (REGISTRO RÁPIDO):</p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">🔴 Ponche Logrado</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">🟡 Base por Bolas</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-50 hover:bg-orange-100 border border-orange-300 text-orange-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">💥 Hit Permitido</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">⚡ Robo Permitido</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Wild Pitch')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">🔄 Wild Pitch</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Out / Ponche Recibido')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-2.5 rounded-xl text-xs font-bold transition shadow-sm">✅ Out / Dominado</button>
+                    <p class="text-xs text-slate-900 mb-2 font-black">⚡ TABLERO TÁCTICO DE PITCHEO (REGISTRO RÁPIDO):</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">🔴 Ponche Logrado</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">🟡 Base por Bolas</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-50 hover:bg-orange-100 border border-orange-300 text-orange-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">💥 Hit Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">⚡ Robo Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Wild Pitch')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">🔄 Wild Pitch</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Out / Ponche Recibido')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-3 rounded-xl text-xs font-bold transition shadow-sm">✅ Out / Dominado</button>
                     </div>
-                    <div class="flex gap-2 items-center">
-                        <label class="text-xs font-bold text-slate-700">Tipo de Pitcheo:</label>
-                        <select id="pitcherTipoPitcheo" class="bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-slate-900 font-semibold">
-                            <option value="Recta Fuerte">Recta Fuerte</option>
-                            <option value="Slider">Slider</option>
-                            <option value="Curva">Curva</option>
-                            <option value="Cambio">Cambio</option>
-                            <option value="Pitcheo No Reconocido">Pitcheo No Reconocido (?)</option>
-                        </select>
+                    <p class="text-xs text-slate-900 mb-1.5 font-black">🎯 SELECCIONA EL TIPO DE PITCHEO UTILIZADO:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        ${botonesPitcheoHTML}
                     </div>
                 `;
             } else {
                 botonera.innerHTML = `
-                    <p class="text-xs text-slate-700 mb-2 font-black">⚾ TABLERO TÁCTICO DE BATEO Y JUGADAS:</p>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">👈 Jardín Izquierdo</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">⬆️ Jardín Central</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Derecho')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2.5 rounded-xl text-xs font-bold transition border border-slate-300">👉 Jardín Derecho</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Exitoso')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-2.5 rounded-xl text-xs font-bold transition">✅ Toque Exitoso</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Fallido')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs font-bold transition">⚠️ Toque Fallido</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Bola Ocupada')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-2.5 rounded-xl text-xs font-bold transition">🔄 Bola Ocupada</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Robo de Base Exitoso')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Exitoso</button>
-                        <button onclick="registrarBatazo(${jugador.id}, 'Ponche / Out')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-2.5 rounded-xl text-xs font-bold transition">❌ Ponche / Out</button>
+                    <p class="text-xs text-slate-900 mb-2 font-black">⚾ TABLERO TÁCTICO DE BATEO Y JUGADAS:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Izquierdo')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-3 rounded-xl text-xs font-bold transition border border-slate-300">👈 Jardín Izquierdo</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Central')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-3 rounded-xl text-xs font-bold transition border border-slate-300">⬆️ Jardín Central</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Jardín Derecho')" class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-3 rounded-xl text-xs font-bold transition border border-slate-300">👉 Jardín Derecho</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Exitoso')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-3 rounded-xl text-xs font-bold transition">✅ Toque Exitoso</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Toque de Sorpresa Fallido')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-3 rounded-xl text-xs font-bold transition">⚠️ Toque Fallido</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Bola Ocupada')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-3 rounded-xl text-xs font-bold transition">🔄 Bola Ocupada</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Robo de Base Exitoso')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-3 rounded-xl text-xs font-bold transition">⚡ Robo Exitoso</button>
+                        <button onclick="registrarBatazo(${jugador.id}, 'Ponche / Out')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-3 rounded-xl text-xs font-bold transition">❌ Ponche / Out</button>
                     </div>
-                    <div class="flex gap-2 items-center">
-                        <label class="text-xs font-bold text-slate-700">Pitcheo Recibido:</label>
-                        <select id="bateadorPitcheo" class="bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-slate-900 font-semibold">
-                            <option value="Recta">Recta</option>
-                            <option value="Slider">Slider</option>
-                            <option value="Curva">Curva</option>
-                            <option value="Cambio">Cambio</option>
-                            <option value="Pitcheo No Reconocido">Pitcheo No Reconocido (?)</option>
-                        </select>
+                    <p class="text-xs text-slate-900 mb-1.5 font-black">🎯 SELECCIONA EL PITCHEO RECIBIDO:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        ${botonesPitcheoHTML}
                     </div>
                 `;
             }
@@ -404,14 +421,14 @@
         };
 
         window.registrarBatazo = function(idJugador, resultado) {
-            const pitcheo = document.getElementById('bateadorPitcheo').value;
+            const pitcheo = pitcheoSeleccionadoActual;
             turnos.push({ id: Date.now(), jugadorId: idJugador, resultado, pitcheo });
             guardarDatos();
             abrirFichaJugador(idJugador);
         }
 
         window.registrarAccionPitcher = function(idJugador, resultado) {
-            const pitcheo = document.getElementById('pitcherTipoPitcheo').value;
+            const pitcheo = pitcheoSeleccionadoActual;
             turnos.push({ id: Date.now(), jugadorId: idJugador, resultado, pitcheo });
             guardarDatos();
             abrirFichaJugador(idJugador);
@@ -459,54 +476,56 @@
                 return;
             }
 
-            // REPORTE BREVE EN TABLA ULTRA COMPACTA (15 JUGADORES EN MEDIA HOJA EXACTA)
-            if (pestanaReporteActual === 'batPersonal' || pestanaReporteActual === 'pitcherPersonal') {
-                let tipoRolFiltro = pestanaReporteActual.includes('bat') ? 'Bateador' : 'Pitcher';
-                let jugadoresFiltrados = rosterEquipo.filter(j => j.rol === tipoRolFiltro);
-
-                if (jugadoresFiltrados.length === 0) {
-                    contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay jugadores para esta categoría en el equipo.</p>';
+            // 2. REPORTE BREVE DE BATEADOR (ULTRA COMPACTO - 15 EN MEDIA HOJA)
+            if (pestanaReporteActual === 'batPersonal') {
+                let batFiltrados = rosterEquipo.filter(j => j.rol === 'Bateador');
+                if (batFiltrados.length === 0) {
+                    contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay bateadores registrados.</p>';
                     return;
                 }
 
                 let htmlTabla = `
-                    <div class="print-card print-half-page bg-white border border-slate-300 rounded-xl p-2 shadow-sm">
-                        <h4 class="font-black text-slate-900 text-[10px] mb-1">📋 Reporte Breve (Equipo: ${equipoSeleccionado}) - ${tipoRolFiltro}s</h4>
+                    <div class="print-card print-half-page bg-white border border-slate-300 rounded-xl p-1.5 shadow-sm">
+                        <h4 class="font-black text-slate-900 text-[10px] mb-1">📋 Reporte Breve de Bateadores - Equipo: ${equipoSeleccionado}</h4>
                         <table class="print-compact-table w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-200 border-b border-slate-400 text-slate-900">
-                                    <th class="p-1 font-black w-6">#</th>
-                                    <th class="p-1 font-black w-28">Jugador</th>
-                                    <th class="p-1 font-black w-16">Perfil</th>
-                                    <th class="p-1 font-black">Tendencia / Instrucción Clave</th>
+                                    <th class="p-1 font-black w-5">#</th>
+                                    <th class="p-1 font-black w-24">Jugador</th>
+                                    <th class="p-1 font-black w-14">Perfil</th>
+                                    <th class="p-1 font-black w-24">Tendencia Bateo</th>
+                                    <th class="p-1 font-black">Defensiva / Alerta</th>
                                 </tr>
                             </thead>
                             <tbody>
                 `;
 
-                jugadoresFiltrados.forEach((j, index) => {
+                batFiltrados.forEach((j, index) => {
                     const turnosJ = turnos.filter(t => t.jugadorId == j.id);
-                    let resumenCorto = "Sin registros.";
-                    
+                    let tendStr = "Sin registros";
+                    let defStr = "Defensa estándar";
+
                     if (turnosJ.length > 0) {
-                        if (tipoRolFiltro === 'Bateador') {
-                            let izq = turnosJ.filter(t => t.resultado.includes('Izquierdo')).length;
-                            let cent = turnosJ.filter(t => t.resultado.includes('Central')).length;
-                            let der = turnosJ.filter(t => t.resultado.includes('Derecho')).length;
-                            let pI = Math.round((izq / turnosJ.length) * 100);
-                            let pC = Math.round((cent / turnosJ.length) * 100);
-                            let pD = Math.round((der / turnosJ.length) * 100);
-                            
-                            let tend = "Centro";
-                            if (pD > pI && pD > pC) tend = "Jala Right";
-                            else if (pI > pD && pI > pC) tend = "Jala Left";
-                            
-                            resumenCorto = `Outfield: ${tend} (${pI}%, ${pC}%, ${pD}%)`;
+                        let izq = turnosJ.filter(t => t.resultado.includes('Izquierdo')).length;
+                        let cent = turnosJ.filter(t => t.resultado.includes('Central')).length;
+                        let der = turnosJ.filter(t => t.resultado.includes('Derecho')).length;
+                        let pI = Math.round((izq / turnosJ.length) * 100);
+                        let pC = Math.round((cent / turnosJ.length) * 100);
+                        let pD = Math.round((der / turnosJ.length) * 100);
+
+                        if (pD > pI && pD > pC) {
+                            tendStr = `➡️ Halar ${pD}%`;
+                            defStr = "Cargar derecha";
+                        } else if (pI > pD && pI > pC) {
+                            tendStr = `⬅️ Halar ${pI}%`;
+                            defStr = "Cargar izquierda";
                         } else {
-                            let ponches = turnosJ.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
-                            let bases = turnosJ.filter(t => t.resultado.includes('Base')).length;
-                            resumenCorto = bases > ponches ? "Descontrolado (Busca base)" : "Dominante (Ataca zona)";
+                            tendStr = `⬆️ Centro ${pC}%`;
+                            defStr = "Defensa normal";
                         }
+
+                        let toques = turnosJ.filter(t => t.resultado.includes('Toque')).length;
+                        if (toques > 0) defStr += " | Alerta: Toque";
                     }
 
                     htmlTabla += `
@@ -514,7 +533,81 @@
                             <td class="p-1 text-slate-600 font-bold">${index + 1}</td>
                             <td class="p-1 font-bold text-slate-900">${j.nombre}</td>
                             <td class="p-1 text-slate-700">${j.perfil}</td>
-                            <td class="p-1 text-slate-900 font-semibold">${resumenCorto}</td>
+                            <td class="p-1 font-semibold text-slate-900">${tendStr}</td>
+                            <td class="p-1 text-slate-800">${defStr}</td>
+                        </tr>
+                    `;
+                });
+
+                htmlTabla += `</tbody></table></div>`;
+                contenedor.innerHTML = htmlTabla;
+                return;
+            }
+
+            // 4. REPORTE BREVE DE PITCHER (PLAN TÁCTICO PARA BATEADOR - 15 EN MEDIA HOJA)
+            if (pestanaReporteActual === 'pitcherPersonal') {
+                let pitchFiltrados = rosterEquipo.filter(j => j.rol === 'Pitcher');
+                if (pitchFiltrados.length === 0) {
+                    contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay pitchers registrados.</p>';
+                    return;
+                }
+
+                let htmlTabla = `
+                    <div class="print-card print-half-page bg-white border border-slate-300 rounded-xl p-1.5 shadow-sm">
+                        <h4 class="font-black text-slate-900 text-[10px] mb-1">📋 Reporte Táctico de Pitchers - Equipo: ${equipoSeleccionado}</h4>
+                        <table class="print-compact-table w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-200 border-b border-slate-400 text-slate-900">
+                                    <th class="p-1 font-black w-5">#</th>
+                                    <th class="p-1 font-black w-24">Pitcher</th>
+                                    <th class="p-1 font-black w-24">Uso de Pitcheos</th>
+                                    <th class="p-1 font-black">Plan de Bateo para Enfrentarlo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                pitchFiltrados.forEach((j, index) => {
+                    const turnosJ = turnos.filter(t => t.jugadorId == j.id);
+                    let pitcheoResumen = "Sin datos.";
+                    let planBateo = "Atacar temprano en el conteo.";
+
+                    if (turnosJ.length > 0) {
+                        let conteoPitcheos = {};
+                        turnosJ.forEach(t => {
+                            let p = t.pitcheo || 'Recta';
+                            conteoPitcheos[p] = (conteoPitcheos[p] || 0) + 1;
+                        });
+
+                        let pitcheosOrdenados = Object.keys(conteoPitcheos).sort((a,b) => conteoPitcheos[b] - conteoPitcheos[a]);
+                        let principal = pitcheosOrdenados[0];
+                        let pctPrincipal = Math.round((conteoPitcheos[principal] / turnosJ.length) * 100);
+                        
+                        pitcheoResumen = `${principal} ${pctPrincipal}%`;
+                        if (pitcheosOrdenados.length > 1) {
+                            let secundario = pitcheosOrdenados[1];
+                            let pctSecundario = Math.round((conteoPitcheos[secundario] / turnosJ.length) * 100);
+                            pitcheoResumen += `, ${secundario} ${pctSecundario}%`;
+                        }
+
+                        let bases = turnosJ.filter(t => t.resultado.includes('Base')).length;
+                        let ponches = turnosJ.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
+
+                        if (bases > ponches) {
+                            planBateo = `Busca elevar conteos. Tiende a regalar bases. No persiguas lanzamientos fuera.`;
+                        } else if (principal.includes('Slider') || principal.includes('Curva')) {
+                            planBateo = `Esperar ${principal} rompiente arriba. Evita hacer swing a envíos quebrados abajo.`;
+                        } else {
+                            planBateo = `Esperar recta. Atacarlo temprano en el conteo y buscar contacto fuerte.`;
+                        }
+                    }
+
+                    htmlTabla += `
+                        <tr class="border-b border-slate-200">
+                            <td class="p-1 text-slate-600 font-bold">${index + 1}</td>
+                            <td class="p-1 font-bold text-slate-900">${j.nombre}</td>
+                            <td class="p-1 text-slate-700">${pitcheoResumen}</td>
+                            <td class="p-1 text-slate-900 font-semibold">${planBateo}</td>
                         </tr>
                     `;
                 });
@@ -582,7 +675,7 @@
             if (jugador.rol === 'Pitcher') {
                 let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
                 let bases = turnosJugador.filter(t => t.resultado.includes('Base')).length;
-                let analisis = bases > ponches ? "⚠️ Descontrolado: Tiende a regalar bases. No le hagas swing a bolas malas." : "⚠️ Dominante: Ataca temprano la zona de strike.";
+                let planRecomendado = bases > ponches ? "⚠️ Descontrolado: Tiende a regalar bases. Espera pasaporte y no hagas swing a bolas malas." : "⚠️ Dominante: Ataca temprano la zona. Sé agresivo en los primeros dos strikes.";
                 
                 return `
                     <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
@@ -590,7 +683,7 @@
                             <h4 class="font-black text-slate-900 text-sm">${nombreMostrado}</h4>
                             <span class="text-xs text-slate-600 font-bold">Registros: ${total}</span>
                         </div>
-                        <p class="text-xs text-slate-900 mb-2 font-semibold"><strong>Análisis del Lanzador:</strong> ${analisis}</p>
+                        <p class="text-xs text-slate-900 mb-2 font-semibold"><strong>Plan de Bateo:</strong> ${planRecomendado}</p>
                         <div class="text-[11px] text-slate-600 font-medium">Control: Ponches/Outs (${ponches}) vs Bases por bolas (${bases})</div>
                         ${listaTurnosHTML}
                     </div>
