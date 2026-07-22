@@ -9,27 +9,28 @@
         @media print {
             body { background: white !important; color: black !important; }
             .no-print { display: none !important; }
-            .print-card { border: 1px solid #ccc !important; background: white !important; color: black !important; break-inside: avoid; font-size: 11px !important; }
-            .print-compact { max-height: 45vh !important; overflow: visible !important; border: 1px dashed #999 !important; padding: 10px !important; margin-bottom: 15px !important; background: white !important; color: black !important; }
+            .print-card { border: 1px solid #ccc !important; background: white !important; color: black !important; break-inside: avoid; font-size: 10px !important; padding: 6px !important; margin-bottom: 6px !important; }
+            .print-compact-table { width: 100% !important; border-collapse: collapse !important; font-size: 10px !important; }
+            .print-compact-table th, .print-compact-table td { border: 1px solid #999 !important; padding: 4px 6px !important; text-align: left !important; }
         }
     </style>
 </head>
 <body id="cuerpoPrincipal" class="bg-white text-slate-900 min-h-screen flex flex-col justify-between transition-colors duration-500">
     
-    <header id="headerPrincipal" class="bg-white border-b border-slate-200 py-4 px-6 shadow-md no-print">
+    <header id="headerPrincipal" class="bg-white border-b border-slate-200 py-3 px-6 shadow-md no-print">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="relative cursor-pointer group" onclick="document.getElementById('inputSubirLogo').click()" title="Cambiar logo LG BeisVisual">
-                    <img id="logoEmpresa" src="https://via.placeholder.com/45" alt="Logo" class="w-11 h-11 rounded-full object-cover border-2 border-blue-600 bg-slate-100">
+                    <img id="logoEmpresa" src="https://via.placeholder.com/60" alt="Logo" class="w-14 h-14 rounded-full object-cover border-2 border-blue-600 bg-slate-100 shadow-md">
                     <div class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[9px] text-white font-bold">Subir</div>
                 </div>
                 <input type="file" id="inputSubirLogo" accept="image/*" class="hidden" onchange="cargarLogoPersonalizado(event, 'lg_beisvisual_logo', 'logoEmpresa')">
                 <div>
                     <h1 id="tituloAppHeader" class="text-xl font-black tracking-wider text-slate-900">LG BEISVISUAL</h1>
-                    <p id="subtituloLiga" class="text-blue-600 font-semibold text-xs">Central de Escautear Equipos y Jugadores</p>
+                    <p id="subtituloLiga" class="text-blue-600 font-bold text-xs">Central de Escautear Equipos y Jugadores</p>
                 </div>
             </div>
-            <button onclick="irAPortada()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold transition border border-slate-300">🏠 Volver a Ligas</button>
+            <button onclick="irAPortada()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl text-xs font-bold transition border border-slate-300">🏠 Volver a Ligas</button>
         </div>
     </header>
 
@@ -222,7 +223,7 @@
             document.getElementById('seccionFichaIndividual').classList.add('hidden');
             document.getElementById('seccionReporteGeneral').classList.add('hidden');
             document.getElementById('subtituloLiga').innerText = "Central de Escautear Equipos y Jugadores";
-            document.getElementById('subtituloLiga').className = "text-blue-600 font-semibold text-xs";
+            document.getElementById('subtituloLiga').className = "text-blue-600 font-bold text-xs";
         }
 
         const registroForm = document.getElementById('registroForm');
@@ -337,12 +338,14 @@
             
             if (jugador.rol === 'Pitcher') {
                 botonera.innerHTML = `
-                    <p class="text-xs text-slate-700 mb-2 font-black">⚡ REGISTRO RÁPIDO PARA PITCHER:</p>
+                    <p class="text-xs text-slate-700 mb-2 font-black">⚡ TABLERO TÁCTICO DE PITCHEO (REGISTRO RÁPIDO):</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-800 p-2.5 rounded-xl text-xs font-bold transition">🔴 Ponche Logrado</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-800 p-2.5 rounded-xl text-xs font-bold transition">🟡 Base por Bolas</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-50 hover:bg-orange-100 border border-orange-300 text-orange-800 p-2.5 rounded-xl text-xs font-bold transition">💥 Hit Permitido</button>
-                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-800 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Ponche Logrado')" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-900 p-2.5 rounded-xl text-xs font-bold transition">🔴 Ponche Logrado</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Base por Bolas')" class="bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs font-bold transition">🟡 Base por Bolas</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Hit Permitido')" class="bg-orange-50 hover:bg-orange-100 border border-orange-300 text-orange-900 p-2.5 rounded-xl text-xs font-bold transition">💥 Hit Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Robo Permitido')" class="bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-900 p-2.5 rounded-xl text-xs font-bold transition">⚡ Robo Permitido</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Wild Pitch')" class="bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-900 p-2.5 rounded-xl text-xs font-bold transition">🔄 Wild Pitch</button>
+                        <button onclick="registrarAccionPitcher(${jugador.id}, 'Out / Ponche Recibido')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 p-2.5 rounded-xl text-xs font-bold transition">✅ Out / Dominado</button>
                     </div>
                     <div class="flex gap-2 items-center">
                         <label class="text-xs font-bold text-slate-700">Tipo de Pitcheo:</label>
@@ -434,16 +437,77 @@
                 return;
             }
 
+            // MODO BREVE / COMPACTO EN TABLA (PARA QUE 15 JUGADORES QUepan EN MEDIA HOJA)
+            if (pestanaReporteActual === 'batPersonal' || pestanaReporteActual === 'pitcherPersonal') {
+                let tipoRolFiltro = pestanaReporteActual.includes('bat') ? 'Bateador' : 'Pitcher';
+                let jugadoresFiltrados = rosterEquipo.filter(j => j.rol === tipoRolFiltro);
+
+                if (jugadoresFiltrados.length === 0) {
+                    contenedor.innerHTML = '<p class="text-slate-500 text-sm text-center py-4 font-semibold">No hay jugadores para esta categoría en el equipo.</p>';
+                    return;
+                }
+
+                let htmlTabla = `
+                    <div class="print-card bg-white border border-slate-300 rounded-2xl p-4 shadow-sm">
+                        <h4 class="font-black text-slate-900 text-sm mb-3">📋 Reporte Breve (Equipo: ${equipoSeleccionado}) - ${tipoRolFiltro}s</h4>
+                        <table class="print-compact-table w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-300 text-slate-900">
+                                    <th class="p-2 font-black">Jugador</th>
+                                    <th class="p-2 font-black">Perfil</th>
+                                    <th class="p-2 font-black">Análisis / Tendencia Clave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                jugadoresFiltrados.forEach(j => {
+                    const turnosJ = turnos.filter(t => t.jugadorId == j.id);
+                    let resumenCorto = "Sin registros todavía.";
+                    
+                    if (turnosJ.length > 0) {
+                        if (tipoRolFiltro === 'Bateador') {
+                            let izq = turnosJ.filter(t => t.resultado.includes('Izquierdo')).length;
+                            let cent = turnosJ.filter(t => t.resultado.includes('Central')).length;
+                            let der = turnosJ.filter(t => t.resultado.includes('Derecho')).length;
+                            let pI = Math.round((izq / turnosJ.length) * 100);
+                            let pC = Math.round((cent / turnosJ.length) * 100);
+                            let pD = Math.round((der / turnosJ.length) * 100);
+                            
+                            let tendencia = "Zona Centro";
+                            if (pD > pI && pD > pC) tendencia = "Jala a Right Field (Derecho)";
+                            else if (pI > pD && pI > pC) tendencia = "Jala a Left Field (Izquierdo)";
+                            
+                            resumenCorto = `Outfield: ${tendencia} (${pI}% Izq, ${pC}% Cent, ${pD}% Der)`;
+                        } else {
+                            let ponches = turnosJ.filter(t => t.resultado.includes('Ponche')).length;
+                            let bases = turnosJ.filter(t => t.resultado.includes('Base')).length;
+                            resumenCorto = bases > ponches ? "Descontrolado (Tiende a regalar bases)" : "Dominante (Ataca zona de strike)";
+                        }
+                    }
+
+                    htmlTabla += `
+                        <tr class="border-b border-slate-200">
+                            <td class="p-2 font-bold text-slate-900">${j.nombre}</td>
+                            <td class="p-2 text-slate-700">${j.perfil}</td>
+                            <td class="p-2 text-slate-800">${resumenCorto}</td>
+                        </tr>
+                    `;
+                });
+
+                htmlTabla += `</tbody></table></div>`;
+                contenedor.innerHTML = htmlTabla;
+                return;
+            }
+
+            // REPORTES NORMALES (DETALLADOS)
             rosterEquipo.forEach(j => {
                 let mostrar = false;
                 if (pestanaReporteActual === 'batNormal' && j.rol === 'Bateador') mostrar = true;
-                if (pestanaReporteActual === 'batPersonal' && j.rol === 'Bateador') mostrar = true;
                 if (pestanaReporteActual === 'pitcherNormal' && j.rol === 'Pitcher') mostrar = true;
-                if (pestanaReporteActual === 'pitcherPersonal' && j.rol === 'Pitcher') mostrar = true;
 
                 if (mostrar) {
-                    let tipoR = pestanaReporteActual.includes('Personal') ? 'personal' : 'normal';
-                    contenedor.innerHTML += `<div class="print-card bg-white border border-slate-200 p-5 rounded-3xl mb-4 shadow-md">${generarHTMLReporteJugador(j.id, tipoR)}</div>`;
+                    contenedor.innerHTML += `<div class="print-card bg-white border border-slate-200 p-5 rounded-3xl mb-4 shadow-md">${generarHTMLReporteJugador(j.id, 'normal')}</div>`;
                 }
             });
 
@@ -471,22 +535,10 @@
             }
 
             if (jugador.rol === 'Pitcher') {
-                let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche')).length;
+                let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
                 let bases = turnosJugador.filter(t => t.resultado.includes('Base')).length;
                 let analisis = bases > ponches ? "⚠️ Descontrolado: Tiende a regalar bases. No le hagas swing a bolas malas." : "⚠️ Dominante: Ataca temprano la zona de strike.";
                 
-                if (modo === 'personal') {
-                    return `
-                        <div class="print-compact border border-slate-300 rounded-2xl p-4 bg-white">
-                            <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
-                                <h5 class="font-black text-slate-900 text-xs">${nombreMostrado}</h5>
-                                <span class="text-[10px] text-slate-600 font-bold">Batallas: ${total}</span>
-                            </div>
-                            <p class="text-[11px] text-slate-800 font-medium"><strong>Guía Pitcher:</strong> ${analisis}</p>
-                        </div>
-                    `;
-                }
-
                 return `
                     <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
                         <div class="flex justify-between items-center mb-2 border-b border-slate-200 pb-2">
@@ -494,7 +546,7 @@
                             <span class="text-xs text-slate-600 font-bold">Registros: ${total}</span>
                         </div>
                         <p class="text-xs text-slate-900 mb-2 font-semibold"><strong>Análisis del Lanzador:</strong> ${analisis}</p>
-                        <div class="text-[11px] text-slate-600 font-medium">Control: Ponches (${ponches}) vs Bases por bolas (${bases})</div>
+                        <div class="text-[11px] text-slate-600 font-medium">Control: Ponches/Outs (${ponches}) vs Bases por bolas (${bases})</div>
                     </div>
                 `;
             }
@@ -522,27 +574,14 @@
                 instruccionesCuadro = "Short stop y 2da base atentos para cerrar la doble matanza.";
             }
 
-            // Función para determinar color de zona (Verde, Amarillo, Rojo)
+            // Colores exactos: Verde, Amarillo y Rojo
             function obtenerColorZona(porcentaje) {
                 if (porcentaje >= 40) return 'bg-red-600 text-white font-black border-red-700 shadow-md';
-                if (porcentaje >= 20) return 'bg-amber-500 text-slate-950 font-bold border-amber-600';
-                return 'bg-emerald-600 text-white font-bold border-emerald-700';
+                if (porcentaje >= 20) return 'bg-amber-400 text-slate-950 font-black border-amber-500 shadow-md';
+                return 'bg-emerald-600 text-white font-black border-emerald-700 shadow-md';
             }
 
-            if (modo === 'personal') {
-                return `
-                    <div class="print-compact border border-slate-300 rounded-2xl p-4 bg-white">
-                        <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
-                            <h5 class="font-black text-slate-900 text-xs">${nombreMostrado}</h5>
-                            <span class="text-[10px] text-slate-600 font-bold">Turnos: ${total}</span>
-                        </div>
-                        <p class="text-[11px] text-slate-800 font-medium"><strong>Outfield:</strong> ${acomodoDefensivo}</p>
-                        <p class="text-[11px] text-slate-800 font-medium"><strong>Infield:</strong> ${instruccionesCuadro}</p>
-                    </div>
-                `;
-            }
-
-            // GRÁFICA DE CAMPO DE BÉISBOL VISUAL EN FORMA DE DIAMANTE / ZONAS
+            // DIAMANTE DE BÉISBOL VISUAL E INTEGRADO CON PORCENTAJES EN VERDE, AMARILLO Y ROJO
             return `
                 <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
                     <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
@@ -554,16 +593,16 @@
                         <p class="text-[10px] text-emerald-200 uppercase font-black mb-3 tracking-widest">🏟️ MAPA TÁCTICO DEL CAMPO DE BÉISBOL (ZONAS)</p>
                         
                         <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
-                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pIzq)}">
-                                <span class="text-[9px] uppercase tracking-wider">Jardín Izquierdo</span>
+                            <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pIzq)}">
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Izquierdo</span>
                                 <span class="text-xl">${pIzq}%</span>
                             </div>
-                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pCent)}">
-                                <span class="text-[9px] uppercase tracking-wider">Jardín Central</span>
+                            <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pCent)}">
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Central</span>
                                 <span class="text-xl">${pCent}%</span>
                             </div>
-                            <div class="p-3 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pDer)}">
-                                <span class="text-[9px] uppercase tracking-wider">Jardín Derecho</span>
+                            <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pDer)}">
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Derecho</span>
                                 <span class="text-xl">${pDer}%</span>
                             </div>
                         </div>
