@@ -369,7 +369,7 @@
             pitcheoSeleccionadoActual = 'Recta'; // Reset por defecto
 
             const listaTiposPitcheo = [
-                'Recta', 'Slider', 'Curva', 'Cambio', 'Sinker', 'Cutter', 'Splitter', 'Knuckleball', 'Pitcheo no reconocido'
+                'Recta', 'Slider', 'Curva', 'Cambio', 'Cutter', 'Sinker', 'Splitter', 'Knuckleball', 'Picheo no reconocido'
             ];
 
             let botonesPitcheoHTML = '';
@@ -380,7 +380,7 @@
                 botonesPitcheoHTML += `<button type="button" data-tipo="${tp}" onclick="seleccionarPitcheoBoton('${tp}')" class="${claseBtn}">${tp}</button>`;
             });
             
-            // BOTONERA DE PITCHER EN CUADROS DE BOTONES
+            // BOTONERA DE PITCHER Y BATEADOR (AMBAS CON TABLERO TÁCTICO DE BOTONES)
             if (jugador.rol === 'Pitcher') {
                 botonera.innerHTML = `
                     <p class="text-xs text-slate-900 mb-2 font-black">⚡ TABLERO TÁCTICO DE PITCHEO (REGISTRO RÁPIDO):</p>
@@ -476,7 +476,7 @@
                 return;
             }
 
-            // 2. REPORTE BREVE DE BATEADOR (ULTRA COMPACTO - 15 EN MEDIA HOJA)
+            // 2. REPORTE BREVE DE BATEADOR (ULTRA COMPACTO - 15 EN MEDIA HOJA CON JI, JC, JD Y CÓMO JUGARLE)
             if (pestanaReporteActual === 'batPersonal') {
                 let batFiltrados = rosterEquipo.filter(j => j.rol === 'Bateador');
                 if (batFiltrados.length === 0) {
@@ -493,8 +493,8 @@
                                     <th class="p-1 font-black w-5">#</th>
                                     <th class="p-1 font-black w-24">Jugador</th>
                                     <th class="p-1 font-black w-14">Perfil</th>
-                                    <th class="p-1 font-black w-24">Tendencia Bateo</th>
-                                    <th class="p-1 font-black">Defensiva / Alerta</th>
+                                    <th class="p-1 font-black w-32">Outfield (JI, JC, JD)</th>
+                                    <th class="p-1 font-black">Cómo jugarle</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -502,8 +502,8 @@
 
                 batFiltrados.forEach((j, index) => {
                     const turnosJ = turnos.filter(t => t.jugadorId == j.id);
-                    let tendStr = "Sin registros";
-                    let defStr = "Defensa estándar";
+                    let outfieldStr = "JI: 0% | JC: 0% | JD: 0%";
+                    let comoJugarleStr = "Defensa estándar.";
 
                     if (turnosJ.length > 0) {
                         let izq = turnosJ.filter(t => t.resultado.includes('Izquierdo')).length;
@@ -513,19 +513,18 @@
                         let pC = Math.round((cent / turnosJ.length) * 100);
                         let pD = Math.round((der / turnosJ.length) * 100);
 
+                        outfieldStr = `JI: ${pI}% | JC: ${pC}% | JD: ${pD}%`;
+
                         if (pD > pI && pD > pC) {
-                            tendStr = `➡️ Halar ${pD}%`;
-                            defStr = "Cargar derecha";
+                            comoJugarleStr = "Cargar derecha.";
                         } else if (pI > pD && pI > pC) {
-                            tendStr = `⬅️ Halar ${pI}%`;
-                            defStr = "Cargar izquierda";
+                            comoJugarleStr = "Cargar izquierda.";
                         } else {
-                            tendStr = `⬆️ Centro ${pC}%`;
-                            defStr = "Defensa normal";
+                            comoJugarleStr = "Buscar línea al central.";
                         }
 
                         let toques = turnosJ.filter(t => t.resultado.includes('Toque')).length;
-                        if (toques > 0) defStr += " | Alerta: Toque";
+                        if (toques > 0) comoJugarleStr += " | Cuidar toque.";
                     }
 
                     htmlTabla += `
@@ -533,8 +532,8 @@
                             <td class="p-1 text-slate-600 font-bold">${index + 1}</td>
                             <td class="p-1 font-bold text-slate-900">${j.nombre}</td>
                             <td class="p-1 text-slate-700">${j.perfil}</td>
-                            <td class="p-1 font-semibold text-slate-900">${tendStr}</td>
-                            <td class="p-1 text-slate-800">${defStr}</td>
+                            <td class="p-1 font-semibold text-slate-900">${outfieldStr}</td>
+                            <td class="p-1 text-slate-800 font-bold">${comoJugarleStr}</td>
                         </tr>
                     `;
                 });
@@ -544,7 +543,7 @@
                 return;
             }
 
-            // 4. REPORTE BREVE DE PITCHER (PLAN TÁCTICO PARA BATEADOR - 15 EN MEDIA HOJA)
+            // 4. REPORTE BREVE DE PITCHER (PLAN TÁCTICO AUTOMÁTICO PARA BATEADOR - 15 EN MEDIA HOJA)
             if (pestanaReporteActual === 'pitcherPersonal') {
                 let pitchFiltrados = rosterEquipo.filter(j => j.rol === 'Pitcher');
                 if (pitchFiltrados.length === 0) {
@@ -554,14 +553,14 @@
 
                 let htmlTabla = `
                     <div class="print-card print-half-page bg-white border border-slate-300 rounded-xl p-1.5 shadow-sm">
-                        <h4 class="font-black text-slate-900 text-[10px] mb-1">📋 Reporte Táctico de Pitchers - Equipo: ${equipoSeleccionado}</h4>
+                        <h4 class="font-black text-slate-900 text-[10px] mb-1">📋 Plan de Bateo vs Pitchers - Equipo: ${equipoSeleccionado}</h4>
                         <table class="print-compact-table w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-200 border-b border-slate-400 text-slate-900">
                                     <th class="p-1 font-black w-5">#</th>
                                     <th class="p-1 font-black w-24">Pitcher</th>
                                     <th class="p-1 font-black w-24">Uso de Pitcheos</th>
-                                    <th class="p-1 font-black">Plan de Bateo para Enfrentarlo</th>
+                                    <th class="p-1 font-black">Plan de Bateo (Cómo enfrentarlo)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -570,7 +569,7 @@
                 pitchFiltrados.forEach((j, index) => {
                     const turnosJ = turnos.filter(t => t.jugadorId == j.id);
                     let pitcheoResumen = "Sin datos.";
-                    let planBateo = "Atacar temprano en el conteo.";
+                    let planBateo = "Atacarlo temprano en el conteo.";
 
                     if (turnosJ.length > 0) {
                         let conteoPitcheos = {};
@@ -594,11 +593,11 @@
                         let ponches = turnosJ.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
 
                         if (bases > ponches) {
-                            planBateo = `Busca elevar conteos. Tiende a regalar bases. No persiguas lanzamientos fuera.`;
+                            planBateo = "Trabajarle el conteo. Aprovechar cuando cae atrás en el conteo.";
                         } else if (principal.includes('Slider') || principal.includes('Curva')) {
-                            planBateo = `Esperar ${principal} rompiente arriba. Evita hacer swing a envíos quebrados abajo.`;
+                            planBateo = "No perseguir slider abajo. Esperar la recta.";
                         } else {
-                            planBateo = `Esperar recta. Atacarlo temprano en el conteo y buscar contacto fuerte.`;
+                            planBateo = "Atacar el primer strike si deja la recta al centro. Evitar hacer swing a lanzamientos fuera.";
                         }
                     }
 
@@ -675,7 +674,7 @@
             if (jugador.rol === 'Pitcher') {
                 let ponches = turnosJugador.filter(t => t.resultado.includes('Ponche') || t.resultado.includes('Dominado')).length;
                 let bases = turnosJugador.filter(t => t.resultado.includes('Base')).length;
-                let planRecomendado = bases > ponches ? "⚠️ Descontrolado: Tiende a regalar bases. Espera pasaporte y no hagas swing a bolas malas." : "⚠️ Dominante: Ataca temprano la zona. Sé agresivo en los primeros dos strikes.";
+                let planRecomendado = bases > ponches ? "Trabajarle el conteo. Aprovechar cuando cae atrás en el conteo." : "Atrapar el primer strike si deja la recta al centro. Evitar hacer swing a lanzamientos fuera.";
                 
                 return `
                     <div class="print-card bg-white border border-slate-200 p-5 rounded-3xl">
@@ -730,15 +729,15 @@
                         
                         <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
                             <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pIzq)}">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Izquierdo</span>
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Izquierdo (JI)</span>
                                 <span class="text-xl">${pIzq}%</span>
                             </div>
                             <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pCent)}">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Central</span>
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Central (JC)</span>
                                 <span class="text-xl">${pCent}%</span>
                             </div>
                             <div class="p-3.5 rounded-xl border-2 flex flex-col justify-center items-center ${obtenerColorZona(pDer)}">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Derecho</span>
+                                <span class="text-[9px] uppercase tracking-wider mb-0.5">Jardín Derecho (JD)</span>
                                 <span class="text-xl">${pDer}%</span>
                             </div>
                         </div>
